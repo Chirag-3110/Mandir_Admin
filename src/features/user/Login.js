@@ -3,6 +3,9 @@ import {Link} from 'react-router-dom'
 import LandingIntro from './LandingIntro'
 import ErrorText from  '../../components/Typography/ErrorText'
 import InputText from '../../components/Input/InputText'
+import { API_REQUEST } from '../../api'
+import { URSL } from '../../constants/URLS'
+import { USER_CONFIG } from '../../constants/User'
 
 function Login(){
 
@@ -15,18 +18,27 @@ function Login(){
     const [errorMessage, setErrorMessage] = useState("")
     const [loginObj, setLoginObj] = useState(INITIAL_LOGIN_OBJ)
 
-    const submitForm = (e) =>{
-        e.preventDefault()
-        setErrorMessage("")
+    const submitForm = async (e) =>{
+        const form=new FormData();
+        try {
+          e.preventDefault()
+          setErrorMessage("")
 
-        if(loginObj.emailId.trim() === "")return setErrorMessage("Email Id is required! (use any value)")
-        if(loginObj.password.trim() === "")return setErrorMessage("Password is required! (use any value)")
-        else{
-            setLoading(true)
-            // Call API to check user credentials and save token in localstorage
-            localStorage.setItem("token", "DumyTokenHere")
-            setLoading(false)
-            window.location.href = '/app/welcome'
+          if(loginObj.emailId.trim() === "")return setErrorMessage("Email Id is required!")
+          if(loginObj.password.trim() === "")return setErrorMessage("Password is required!")
+          else{
+                // form.append("email)
+            //   setLoading(true)
+                const loginResponse=await API_REQUEST.postData(URSL.LOGIN,{email:loginObj.emailId,password:loginObj.password})
+                console.log(loginResponse)
+                // if(loginResponse.data.status===200){
+                //     setLoading(false)
+                // }
+                // localStorage.setItem(USER_CONFIG.TOKEN_DETAIL, "DumyTokenHere")
+                // window.location.href = '/app/welcome'
+          }
+        } catch (error) {
+          console.log(error);
         }
     }
 

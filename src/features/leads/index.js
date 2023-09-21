@@ -7,13 +7,17 @@ import { deleteLead, getLeadsContent } from "./leadSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 import { showNotification } from '../common/headerSlice'
+import { API_REQUEST } from "../../api"
+import { URSL } from "../../constants/URLS"
+import { useState } from "react"
+// import API_REQUEST from '../../'
 
 const TopSideButtons = () => {
 
     const dispatch = useDispatch()
 
     const openAddNewLeadModal = () => {
-        dispatch(openModal({title : "Add New Lead", bodyType : MODAL_BODY_TYPES.LEAD_ADD_NEW}))
+        dispatch(openModal({title : "Add New User", bodyType : MODAL_BODY_TYPES.LEAD_ADD_NEW}))
     }
 
     return(
@@ -25,21 +29,25 @@ const TopSideButtons = () => {
 
 function Leads(){
 
-    const {leads } = useSelector(state => state.lead)
     const dispatch = useDispatch()
+    const [allUsers,setAllUsers]=useState([]);
 
     useEffect(() => {
         dispatch(getLeadsContent())
     }, [])
 
+    useEffect(()=>{
+        getAllUsers()
+    },[])
     
-
-    const getDummyStatus = (index) => {
-        if(index % 5 === 0)return <div className="badge">Not Interested</div>
-        else if(index % 5 === 1)return <div className="badge badge-primary">In Progress</div>
-        else if(index % 5 === 2)return <div className="badge badge-secondary">Sold</div>
-        else if(index % 5 === 3)return <div className="badge badge-accent">Need Followup</div>
-        else return <div className="badge badge-ghost">Open</div>
+    const getAllUsers=async()=>{
+        try {
+        const usersList=await API_REQUEST.getData(URSL.GET_USER)
+        // setAllUsers(usersList.data)
+        console.log(usersList)
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const deleteCurrentLead = (index) => {
@@ -50,7 +58,7 @@ function Leads(){
     return(
         <>
             
-            <TitleCard title="Current Leads" topMargin="mt-2" TopSideButtons={<TopSideButtons />}>
+            <TitleCard title="Current Users" topMargin="mt-2" TopSideButtons={<TopSideButtons />}>
 
                 {/* Leads List in table format loaded from slice after api call */}
             <div className="overflow-x-auto w-full">
@@ -61,32 +69,31 @@ function Leads(){
                         <th>Email Id</th>
                         <th>Created At</th>
                         <th>Status</th>
-                        <th>Assigned To</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
                         {
-                            leads.map((l, k) => {
+                            allUsers.length>0 &&
+                            allUsers.map((l, k) => {
                                 return(
                                     <tr key={k}>
                                     <td>
                                         <div className="flex items-center space-x-3">
-                                            <div className="avatar">
+                                            {/* <div className="avatar">
                                                 <div className="mask mask-squircle w-12 h-12">
                                                     <img src={l.avatar} alt="Avatar" />
                                                 </div>
-                                            </div>
+                                            </div> */}
                                             <div>
-                                                <div className="font-bold">{l.first_name}</div>
-                                                <div className="text-sm opacity-50">{l.last_name}</div>
+                                                <div className="font-bold">{l.username}</div>
                                             </div>
                                         </div>
                                     </td>
                                     <td>{l.email}</td>
                                     <td>{moment(new Date()).add(-5*(k+2), 'days').format("DD MMM YY")}</td>
-                                    <td>{getDummyStatus(k)}</td>
-                                    <td>{l.last_name}</td>
+                                    {/* <td>{getDummyStatus(k)}</td> */}
+                                    {/* <td>{l.last_name}</td> */}
                                     <td><button className="btn btn-square btn-ghost" onClick={() => deleteCurrentLead(k)}><TrashIcon className="w-5"/></button></td>
                                     </tr>
                                 )
