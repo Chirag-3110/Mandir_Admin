@@ -6,6 +6,9 @@ import InputText from '../../components/Input/InputText'
 import { API_REQUEST } from '../../api'
 import { URSL } from '../../constants/URLS'
 import { USER_CONFIG } from '../../constants/User'
+import { openModal } from "../common/modalSlice"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login(){
 
@@ -19,26 +22,30 @@ function Login(){
     const [loginObj, setLoginObj] = useState(INITIAL_LOGIN_OBJ)
 
     const submitForm = async (e) =>{
-        const form=new FormData();
         try {
           e.preventDefault()
           setErrorMessage("")
 
-          if(loginObj.emailId.trim() === "")return setErrorMessage("Email Id is required!")
-          if(loginObj.password.trim() === "")return setErrorMessage("Password is required!")
+          if(loginObj.emailId.trim() === "") throw "Email Id is required!";
+          if(loginObj.password.trim() === "") throw "Password is required!";
           else{
                 // form.append("email)
-            //   setLoading(true)
+              setLoading(true)
+            //   window.location.href = '/app/welcome'Ap
                 const loginResponse=await API_REQUEST.postData(URSL.LOGIN,{email:loginObj.emailId,password:loginObj.password})
                 console.log(loginResponse)
-                // if(loginResponse.data.status===200){
-                //     setLoading(false)
-                // }
-                // localStorage.setItem(USER_CONFIG.TOKEN_DETAIL, "DumyTokenHere")
-                // window.location.href = '/app/welcome'
-          }
+                if(loginResponse.data.status==200){
+                    localStorage.setItem(USER_CONFIG.TOKEN_DETAIL, loginResponse.data.data)
+                    window.location.href = '/app/welcome'
+                }else{
+                    throw loginResponse.data.message
+                }
+            }
         } catch (error) {
-          console.log(error);
+            toast(error);
+            console.log(error);
+        }finally{
+            setLoading(false)
         }
     }
 
@@ -77,6 +84,7 @@ function Login(){
                 </div>
             </div>
             </div>
+            <ToastContainer />
         </div>
     )
 }

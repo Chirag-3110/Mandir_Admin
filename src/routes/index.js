@@ -21,7 +21,7 @@ const DocComponents = lazy(() => import('../pages/DocComponents'))
 
 const routes = [
   {
-    path: '/dashboard', // the url
+    path: '/', // the url
     component: Dashboard, // view rendered
   },
   {

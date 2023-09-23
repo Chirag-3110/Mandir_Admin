@@ -18,12 +18,12 @@ class ApiHelper{
                 return {data:error,error:true}
             })
     }
-    deleteData=async(url,token)=>{
+    deleteData=async(url,body,token)=>{
         if(token){
             this.headers={...this.headers,'authorization': `Bearer ${token}`}
         }
         console.log(this.headers)
-        return axios.delete(`${this.baseurl}/${url}`,{headers: this.headers})
+        return axios.delete(`${this.baseurl}/${url}`,body,{headers: this.headers})
             .then(function (response) {
                 return {data:'Data Deleted',error:false};
             })
@@ -33,17 +33,15 @@ class ApiHelper{
             })
     }
     postData=async(url,body,token)=>{
+        this.headers={contentType : "multipart/form-data",};
         if(token){
             this.headers={...this.headers,'authorization': `Bearer ${token}`}
         }
-        console.log(`${this.baseurl}/${url}`)
-        console.log(body)
         return axios.post(`${this.baseurl}/${url}`,body,{headers:this.headers})
             .then(function (response) {
                 return {data:response.data,error:false};
             })
             .catch(function (error) {
-                console.log(error.response.data);
                 return {data:error.message,error:true}
             })
     }

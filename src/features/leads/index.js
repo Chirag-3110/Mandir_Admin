@@ -10,7 +10,9 @@ import { showNotification } from '../common/headerSlice'
 import { API_REQUEST } from "../../api"
 import { URSL } from "../../constants/URLS"
 import { useState } from "react"
-// import API_REQUEST from '../../'
+import { USER_CONFIG } from "../../constants/User"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TopSideButtons = () => {
 
@@ -29,12 +31,7 @@ const TopSideButtons = () => {
 
 function Leads(){
 
-    const dispatch = useDispatch()
     const [allUsers,setAllUsers]=useState([]);
-
-    useEffect(() => {
-        dispatch(getLeadsContent())
-    }, [])
 
     useEffect(()=>{
         getAllUsers()
@@ -42,19 +39,60 @@ function Leads(){
     
     const getAllUsers=async()=>{
         try {
-        const usersList=await API_REQUEST.getData(URSL.GET_USER)
-        // setAllUsers(usersList.data)
-        console.log(usersList)
+        const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL)
+            const usersList=await API_REQUEST.getData(URSL.GET_USER,token)
+            console.log(usersList,"ss")
+            if(usersList.data.status==200){
+                console.log(usersList.data.data)
+                setAllUsers(usersList?.data?.data)
+            }else{
+                throw usersList
+            }
         } catch (error) {
             console.log(error);
         }
     }
+    const deleteUser=async(item,selectedIndex)=>{
+        try {
+            const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL);
+            const response=await API_REQUEST.postData(URSL.DELETE_USER,{id:item.id},token)
+            if(response.data.status !== 200)
+                throw response
 
-    const deleteCurrentLead = (index) => {
-        dispatch(openModal({title : "Confirmation", bodyType : MODAL_BODY_TYPES.CONFIRMATION, 
-        extraObject : { message : `Are you sure you want to delete this lead?`, type : CONFIRMATION_MODAL_CLOSE_TYPES.LEAD_DELETE, index}}))
+            setAllUsers(items =>
+                items.map((value, index) => {
+                    if (index === selectedIndex) {
+                        value.is_delete =  value.is_delete?0:1;
+                    } 
+                    return value;
+                }),
+            );
+            toast(`Delete Status Updated Successfully`)
+        } catch (error) {
+            toast("User not deleted")
+            console.log(error);
+        }
     }
-
+    const updateuserActiveStatus=async(item,selectedIndex)=>{
+        try {
+            const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL);
+            const response=await API_REQUEST.postData(URSL.UPDATE_STAUS_USER,{id:item.id},token)
+            if(response.data.status !== 200)
+                throw response
+            setAllUsers(items =>
+                items.map((value, index) => {
+                    if (index === selectedIndex) {
+                        value.is_active =  value.is_active?0:1;
+                    } 
+                    return value;
+                }),
+            );
+            toast("User Active Status Changed")
+        } catch (error) {
+            toast("User Active Status not Changes")
+            console.log(error);
+        }
+    }
     return(
         <>
             
@@ -67,9 +105,9 @@ function Leads(){
                     <tr>
                         <th>Name</th>
                         <th>Email Id</th>
-                        <th>Created At</th>
-                        <th>Status</th>
-                        <th></th>
+                        <th>Phone</th>
+                        <th>Activity</th>
+                        <th>Delete Status</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -86,15 +124,22 @@ function Leads(){
                                                 </div>
                                             </div> */}
                                             <div>
-                                                <div className="font-bold">{l.username}</div>
+                                                <div className="font-bold">{l.full_name}</div>
                                             </div>
                                         </div>
                                     </td>
                                     <td>{l.email}</td>
-                                    <td>{moment(new Date()).add(-5*(k+2), 'days').format("DD MMM YY")}</td>
-                                    {/* <td>{getDummyStatus(k)}</td> */}
-                                    {/* <td>{l.last_name}</td> */}
-                                    <td><button className="btn btn-square btn-ghost" onClick={() => deleteCurrentLead(k)}><TrashIcon className="w-5"/></button></td>
+                                    <td>{l.phone}</td>
+                                    <td>
+                                        <button className="btn btn-square btn-ghost" onClick={() => updateuserActiveStatus(l,k)}>
+                                            <td style={{color:l.is_active?"green":"red"}}>{l.is_active?"ACTIVE":"InActive"}</td>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button className="btn btn-square btn-ghost" onClick={() => deleteUser(l,k)}>
+                                            <td style={{color:l.is_delete?"green":"red"}}>{l.is_delete?"DELETED":"DELETE"}</td>
+                                        </button>
+                                    </td>
                                     </tr>
                                 )
                             })
@@ -103,6 +148,7 @@ function Leads(){
                 </table>
             </div>
             </TitleCard>
+            <ToastContainer />
         </>
     )
 }

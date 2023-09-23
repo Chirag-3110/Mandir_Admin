@@ -34,59 +34,59 @@ const routes = [
     icon: <InboxArrowDownIcon className={iconClasses}/>, // icon component
     name: 'Users', // name that appear in Sidebar
   },
+  {
+    path: '/app/transactions', // url
+    icon: <CurrencyDollarIcon className={iconClasses}/>, // icon component
+    name: 'Events', // name that appear in Sidebar
+  },
   // {
-  //   path: '/app/transactions', // url
-  //   icon: <CurrencyDollarIcon className={iconClasses}/>, // icon component
-  //   name: 'Transactions', // name that appear in Sidebar
+  //   path: '/app/charts', // url
+  //   icon: <ChartBarIcon className={iconClasses}/>, // icon component
+  //   name: 'Analytics', // name that appear in Sidebar
   // },
-  // // {
-  // //   path: '/app/charts', // url
-  // //   icon: <ChartBarIcon className={iconClasses}/>, // icon component
-  // //   name: 'Analytics', // name that appear in Sidebar
-  // // },
-  // {
-  //   path: '/app/integration', // url
-  //   icon: <BoltIcon className={iconClasses}/>, // icon component
-  //   name: 'Integration', // name that appear in Sidebar
-  // },
+  {
+    path: '/app/integration', // url
+    icon: <BoltIcon className={iconClasses}/>, // icon component
+    name: 'News', // name that appear in Sidebar
+  },
   {
     path: '/app/calendar', // url
     icon: <CalendarDaysIcon className={iconClasses}/>, // icon component
     name: 'Calendar', // name that appear in Sidebar
   },
 
-  {
-    path: '', //no url needed as this has submenu
-    icon: <DocumentDuplicateIcon className={`${iconClasses} inline` }/>, // icon component
-    name: 'Pages', // name that appear in Sidebar
-    submenu : [
-      {
-        path: '/login',
-        icon: <ArrowRightOnRectangleIcon className={submenuIconClasses}/>,
-        name: 'Login',
-      },
-      {
-        path: '/register', //url
-        icon: <UserIcon className={submenuIconClasses}/>, // icon component
-        name: 'Register', // name that appear in Sidebar
-      },
-      {
-        path: '/forgot-password',
-        icon: <KeyIcon className={submenuIconClasses}/>,
-        name: 'Forgot Password',
-      },
-      {
-        path: '/app/blank',
-        icon: <DocumentIcon className={submenuIconClasses}/>,
-        name: 'Blank Page',
-      },
-      {
-        path: '/app/404',
-        icon: <ExclamationTriangleIcon className={submenuIconClasses}/>,
-        name: '404',
-      },
-    ]
-  },
+  // {
+  //   path: '', //no url needed as this has submenu
+  //   icon: <DocumentDuplicateIcon className={`${iconClasses} inline` }/>, // icon component
+  //   name: 'Pages', // name that appear in Sidebar
+  //   submenu : [
+  //     {
+  //       path: '/login',
+  //       icon: <ArrowRightOnRectangleIcon className={submenuIconClasses}/>,
+  //       name: 'Login',
+  //     },
+  //     {
+  //       path: '/register', //url
+  //       icon: <UserIcon className={submenuIconClasses}/>, // icon component
+  //       name: 'Register', // name that appear in Sidebar
+  //     },
+  //     {
+  //       path: '/forgot-password',
+  //       icon: <KeyIcon className={submenuIconClasses}/>,
+  //       name: 'Forgot Password',
+  //     },
+  //     {
+  //       path: '/app/blank',
+  //       icon: <DocumentIcon className={submenuIconClasses}/>,
+  //       name: 'Blank Page',
+  //     },
+  //     {
+  //       path: '/app/404',
+  //       icon: <ExclamationTriangleIcon className={submenuIconClasses}/>,
+  //       name: '404',
+  //     },
+  //   ]
+  // },
   {
     path: '', //no url needed as this has submenu
     icon: <Cog6ToothIcon className={`${iconClasses} inline` }/>, // icon component

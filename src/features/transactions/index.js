@@ -1,117 +1,141 @@
 import moment from "moment"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { showNotification } from "../common/headerSlice"
 import TitleCard from "../../components/Cards/TitleCard"
 import { RECENT_TRANSACTIONS } from "../../utils/dummyData"
-import FunnelIcon from '@heroicons/react/24/outline/FunnelIcon'
-import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
-import SearchBar from "../../components/Input/SearchBar"
+import TrashIcon from "@heroicons/react/24/outline/TrashIcon"
+import { API_REQUEST } from "../../api"
+import { USER_CONFIG } from "../../constants/User"
+import { URSL } from "../../constants/URLS"
+import { openModal } from "../common/modalSlice"
+import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const TopSideButtons = ({removeFilter, applyFilter, applySearch}) => {
+const TopSideButtons = () => {
 
-    const [filterParam, setFilterParam] = useState("")
-    const [searchText, setSearchText] = useState("")
-    const locationFilters = ["Paris", "London", "Canada", "Peru", "Tokyo"]
+    const dispatch = useDispatch()
 
-    const showFiltersAndApply = (params) => {
-        applyFilter(params)
-        setFilterParam(params)
+    const openAddNewLeadModal = () => {
+        dispatch(openModal({title : "Add New Event", bodyType : MODAL_BODY_TYPES.EVENT_ADD_NEW}))
     }
-
-    const removeAppliedFilter = () => {
-        removeFilter()
-        setFilterParam("")
-        setSearchText("")
-    }
-
-    useEffect(() => {
-        if(searchText == ""){
-            removeAppliedFilter()
-        }else{
-            applySearch(searchText)
-        }
-    }, [searchText])
 
     return(
         <div className="inline-block float-right">
-            <SearchBar searchText={searchText} styleClass="mr-4" setSearchText={setSearchText}/>
-            {filterParam != "" && <button onClick={() => removeAppliedFilter()} className="btn btn-xs mr-2 btn-active btn-ghost normal-case">{filterParam}<XMarkIcon className="w-4 ml-2"/></button>}
-            <div className="dropdown dropdown-bottom dropdown-end">
-                <label tabIndex={0} className="btn btn-sm btn-outline"><FunnelIcon className="w-5 mr-2"/>Filter</label>
-                <ul tabIndex={0} className="dropdown-content menu p-2 text-sm shadow bg-base-100 rounded-box w-52">
-                    {
-                        locationFilters.map((l, k) => {
-                            return  <li key={k}><a onClick={() => showFiltersAndApply(l)}>{l}</a></li>
-                        })
-                    }
-                    <div className="divider mt-0 mb-0"></div>
-                    <li><a onClick={() => removeAppliedFilter()}>Remove Filter</a></li>
-                </ul>
-            </div>
+            <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
         </div>
     )
 }
 
-
 function Transactions(){
 
 
-    const [trans, setTrans] = useState(RECENT_TRANSACTIONS)
+    const [events, setEvents] = useState(RECENT_TRANSACTIONS)
 
-    const removeFilter = () => {
-        setTrans(RECENT_TRANSACTIONS)
+    useEffect(()=>{
+        getAllEvents()
+    },[])
+    const getAllEvents=async()=>{
+        try {
+            const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL);
+            const eventsApi=await API_REQUEST.getData(URSL.GET_EVENTS,token);
+            if(eventsApi.data.status != 200)
+                throw eventsApi
+            setEvents(eventsApi.data.data)
+        } catch (error) {
+            toast("Cannot fetch events");
+            console.log(error);
+        }
     }
+    const deletEvent=async(item,selectedIndex)=>{
+        try {
+            const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL);
+            const response=await API_REQUEST.postData(URSL.DELETE_STATUS_EVENT,{id:item.id},token)
+            if(response.data.status !== 200)
+                throw response
 
-    const applyFilter = (params) => {
-        let filteredTransactions = RECENT_TRANSACTIONS.filter((t) => {return t.location == params})
-        setTrans(filteredTransactions)
+            setEvents(items =>
+                items.map((value, index) => {
+                    if (index === selectedIndex) {
+                        value.is_delete =  value.is_delete?0:1;
+                    } 
+                    return value;
+                }),
+            );
+            toast(`Delete Status Updated Successfully`)
+        } catch (error) {
+            toast("Event not deleted")
+            console.log(error);
+        }
     }
-
-    // Search according to name
-    const applySearch = (value) => {
-        let filteredTransactions = RECENT_TRANSACTIONS.filter((t) => {return t.email.toLowerCase().includes(value.toLowerCase()) ||  t.email.toLowerCase().includes(value.toLowerCase())})
-        setTrans(filteredTransactions)
+    const udpateEventAcivity=async(item,selectedIndex)=>{
+        try {
+            const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL);
+            const response=await API_REQUEST.postData(URSL.UPDATE_ACTIVE_STATUS_EVENT,{id:item.id},token)
+            if(response.data.status !== 200)
+                throw response
+            setEvents(items =>
+                items.map((value, index) => {
+                    if (index === selectedIndex) {
+                        value.is_active =  value.is_active?0:1;
+                    } 
+                    return value;
+                }),
+            );
+            toast("Event Status Changed")
+        } catch (error) {
+            toast("Event Status not Changes")
+            console.log(error);
+        }
     }
-
     return(
         <>
             
-            <TitleCard title="Recent Transactions" topMargin="mt-2" TopSideButtons={<TopSideButtons applySearch={applySearch} applyFilter={applyFilter} removeFilter={removeFilter}/>}>
+            <TitleCard title="All Events" topMargin="mt-2" TopSideButtons={<TopSideButtons />} >
 
-                {/* Team Member list in table format loaded constant */}
             <div className="overflow-x-auto w-full">
                 <table className="table w-full">
                     <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Email Id</th>
-                        <th>Location</th>
-                        <th>Amount</th>
-                        <th>Transaction Date</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Event Type</th>
+                        <th>Activity</th>
+                        <th>Delete Status</th>
                     </tr>
                     </thead>
                     <tbody>
                         {
-                            trans.map((l, k) => {
+                            events.length>0 &&
+                            events.map((item, index) => {
                                 return(
-                                    <tr key={k}>
+                                    <tr key={index}>
                                     <td>
                                         <div className="flex items-center space-x-3">
-                                            <div className="avatar">
+                                            {/* <div className="avatar">
                                                 <div className="mask mask-circle w-12 h-12">
                                                     <img src={l.avatar} alt="Avatar" />
                                                 </div>
                                             </div>
-                                            <div>
-                                                <div className="font-bold">{l.name}</div>
-                                            </div>
+                                            <div> */}
+                                                <div className="font-bold">{item.name}</div>
+                                            {/* </div> */}
                                         </div>
                                     </td>
-                                    <td>{l.email}</td>
-                                    <td>{l.location}</td>
-                                    <td>${l.amount}</td>
-                                    <td>{moment(l.date).format("D MMM")}</td>
+                                    <td>{item.start_date}</td>
+                                    <td>{item.end_date}</td>
+                                    <td>{item.type?"LIVE":"ON-SITE"}</td>
+                                    <td>
+                                        <button className="btn btn-square btn-ghost" onClick={() => udpateEventAcivity(item,index)}>
+                                            <td style={{color:item.is_active?"green":"red"}}>{item.is_active?"ACTIVE":"InActive"}</td>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button className="btn btn-square btn-ghost" onClick={() => deletEvent(item,index)}>
+                                            <td style={{color:item.is_delete?"green":"red"}}>{item.is_delete?"DELETED":"DELETE"}</td>
+                                        </button>
+                                    </td>
                                     </tr>
                                 )
                             })
@@ -120,6 +144,7 @@ function Transactions(){
                 </table>
             </div>
             </TitleCard>
+            <ToastContainer />
         </>
     )
 }
