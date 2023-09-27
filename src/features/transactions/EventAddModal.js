@@ -15,7 +15,7 @@ const INITIAL_EVENT_OBJ = {
     description:"",
     type:"",
     address:"",
-    file:"",
+    file:{},
 }
 
 function AddEventModalBody({closeModal}){
@@ -28,30 +28,33 @@ function AddEventModalBody({closeModal}){
 
     const saveNewEvent = async () => {
         try {
-            const formdata=new FormData(form.current);
-            // if(leadObj.name.trim() === "")  throw "Name is required!";
-            // else if(leadObj.start_date.trim() === "")  throw "Start date is required!";
-            // else if(leadObj.end_date.trim() === "")  throw "End date is required!";
-            // else if(leadObj.description.trim() === "")  throw "Description is required!";
-            // else if(leadObj.type.trim() === "")  throw "Type is required!";
-            // else if(leadObj.address.trim() === "")  throw "Address is required!";
-            // else if(leadObj.file.trim() === "")  throw "File is required!";
-            // else{
-                formdata.append('name','leadObj.name')
-                formdata.append('start_date','leadObj.start_date')
+            const formdata=new FormData();
+            if(leadObj.name.trim() === "")  throw "Name is required!";
+            else if(leadObj.start_date.trim() === "")  throw "Start date is required!";
+            else if(leadObj.end_date.trim() === "")  throw "End date is required!";
+            else if(leadObj.description.trim() === "")  throw "Description is required!";
+            else if(leadObj.type.trim() === "")  throw "Type is required!";
+            else if(leadObj.address.trim() === "")  throw "Address is required!";
+            else if(leadObj.file.trim() === "")  throw "File is required!";
+            else{
+                formdata.append('name',leadObj.name)
+                formdata.append('start_date',leadObj.start_date)
                 formdata.append('end_date',leadObj.end_date)
                 formdata.append('description',leadObj.description)
-                formdata.append('type',false)
+                formdata.append('type',0)
                 formdata.append('address',leadObj.address)
                 formdata.append('file',leadObj.file)
-                console.log(formdata,"dod")
+                console.log(leadObj,"dod")
                 const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL)
-                const eventRespone=await API_REQUEST.postData(URSL.ADD_EVENTS,formdata,token);
-                console.log(eventRespone,"ee")
-                // closeModal()
-            // }
+                const eventRespone=await API_REQUEST.postData(URSL.ADD_EVENTS,formdata,token,'multipart/form-data');
+                if(eventRespone.data.status!==200){
+                    throw eventRespone
+                }   
+                closeModal()
+                toast(eventRespone.data.message)
+            }
         } catch (error) {
-            // toast(error);
+            toast(error.data.message)
             console.log(error);
         }
     }
@@ -64,14 +67,14 @@ function AddEventModalBody({closeModal}){
     return(
         <>
 
-            <form ref={form}>
+            <form encType="multipart/form-data" ref={form}>
                 <InputText type="text" defaultValue={leadObj.name} updateType="name" containerStyle="mt-4" labelTitle="Name" updateFormValue={updateFormValue}/>
                 <InputText type="date" defaultValue={leadObj.start_date} updateType="start_date" containerStyle="mt-4" labelTitle="Start Date" updateFormValue={updateFormValue}/>
                 <InputText type="date" defaultValue={leadObj.end_date} updateType="end_date" containerStyle="mt-4" labelTitle="End Date" updateFormValue={updateFormValue}/>
                 <InputText type="text" defaultValue={leadObj.description} updateType="description" containerStyle="mt-4" labelTitle="Description" updateFormValue={updateFormValue}/>
                 <InputText type="text" defaultValue={leadObj.type} updateType="type" containerStyle="mt-4" labelTitle="Event Type" updateFormValue={updateFormValue}/>
                 <InputText type="text" defaultValue={leadObj.address} updateType="address" containerStyle="mt-4" labelTitle="Address" updateFormValue={updateFormValue}/>
-                <InputText type="file" defaultValue={leadObj.file} updateType="file" containerStyle="mt-4" labelTitle="Upload File" updateFormValue={updateFormValue}/>
+                <InputText type="file" defaultValue={leadObj.file?.name} updateType="file" containerStyle="mt-4" labelTitle="Upload File" updateFormValue={updateFormValue}/>
 
             </form>
 

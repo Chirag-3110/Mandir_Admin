@@ -40,10 +40,10 @@ function App() {
           {
             user?
             <>
-              <Route path="/" element={<Layout />} />
-              <Route path="/app/*" element={<Layout />} />
+              <Route path="*" element={<Layout />} />
             </>:
             <>
+              <Route path="*" element={<Login />} />
               <Route path="/login" element={<Login />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/register" element={<Register />} />

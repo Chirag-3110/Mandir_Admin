@@ -1,6 +1,6 @@
 import TemplatePointers from "./components/TemplatePointers"
 
-const bgWelcome = require('../../assets/bg-welcome.jpg');
+const bgWelcome = require('../../assets/main.jpeg');
 
 function LandingIntro() {
 

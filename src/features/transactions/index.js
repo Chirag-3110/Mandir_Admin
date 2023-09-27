@@ -91,8 +91,8 @@ function Transactions(){
     return(
         <>
             
-            <TitleCard title="All Events" topMargin="mt-2" TopSideButtons={<TopSideButtons />} >
 
+            <TitleCard title="All Events" topMargin="mt-2" TopSideButtons={<TopSideButtons />}>
             <div className="overflow-x-auto w-full">
                 <table className="table w-full">
                     <thead>

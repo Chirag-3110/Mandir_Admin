@@ -1,8 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
+
 class ApiHelper{
     constructor(baseurl){
         this.baseurl=baseurl;
-        this.headers={contentType : "application/json",};
+        this.headers={contentType : "application/json",accept:"*/*"};
     }
     getData=async(url,token,params)=>{
         console.log(`${this.baseurl}/${url}`)
@@ -32,9 +33,11 @@ class ApiHelper{
                 return {data:error,error:true}
             })
     }
-    postData=async(url,body,token)=>{
-        this.headers={contentType : "multipart/form-data",};
+    postData=async(url,body,token,contentType)=>{
         if(token){
+            if(contentType){
+                this.headers={contentType};
+            }
             this.headers={...this.headers,'authorization': `Bearer ${token}`}
         }
         return axios.post(`${this.baseurl}/${url}`,body,{headers:this.headers})
@@ -42,6 +45,7 @@ class ApiHelper{
                 return {data:response.data,error:false};
             })
             .catch(function (error) {
+                console.log(error)
                 return {data:error.message,error:true}
             })
     }

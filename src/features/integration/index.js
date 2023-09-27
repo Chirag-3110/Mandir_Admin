@@ -8,6 +8,25 @@ import 'react-toastify/dist/ReactToastify.css';
 import { URSL } from "../../constants/URLS"
 import { USER_CONFIG } from "../../constants/User"
 import {API_REQUEST} from '../../api/index';
+import { openModal } from "../common/modalSlice"
+import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
+
+const TopSideButtons = () => {
+
+    const dispatch = useDispatch()
+
+    const openAddNewLeadModal = () => {
+        dispatch(openModal({title : "Add New News", bodyType : MODAL_BODY_TYPES.NEWS_ADD_MODAL,size:"lg"}))
+    }
+
+    return(
+        <div className="inline-block float-right">
+            <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add New</button>
+        </div>
+    )
+}
+
+
 function Integration(){
 
     const dispatch = useDispatch()
@@ -74,6 +93,7 @@ function Integration(){
     }
     return(
         <>
+            <TitleCard title="All News" topMargin="mt-2" TopSideButtons={<TopSideButtons />} >
              <div className="overflow-x-auto w-full">
                 <table className="table w-full">
                     <thead>
@@ -114,6 +134,7 @@ function Integration(){
                     </tbody>
                 </table>
             </div>
+            </TitleCard>
             <ToastContainer />
         </>
     )

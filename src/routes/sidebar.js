@@ -25,19 +25,19 @@ const submenuIconClasses = `h-5 w-5`
 const routes = [
 
   {
-    path: '/app/dashboard',
-    icon: <Squares2X2Icon className={iconClasses}/>, 
+    path: '/',
+    icon: <img className="mask mask-squircle w-6" src="../../assets\dashboard.png" alt="dashboard"/>, 
     name: 'Dashboard',
   },
   {
-    path: '/app/leads', // url
-    icon: <InboxArrowDownIcon className={iconClasses}/>, // icon component
-    name: 'Users', // name that appear in Sidebar
+    path: '/leads', // url
+    icon: <img className="mask mask-squircle w-6" src="user.png" alt="mandir logo"/>, // icon component
+    name: 'Users Manager', // name that appear in Sidebar
   },
   {
-    path: '/app/transactions', // url
-    icon: <CurrencyDollarIcon className={iconClasses}/>, // icon component
-    name: 'Events', // name that appear in Sidebar
+    path: '/transactions', // url
+    icon: <img className="mask mask-squircle w-6" src="events.png" alt="mandir logo"/>, // icon component
+    name: 'Events Manager', // name that appear in Sidebar
   },
   // {
   //   path: '/app/charts', // url
@@ -45,12 +45,12 @@ const routes = [
   //   name: 'Analytics', // name that appear in Sidebar
   // },
   {
-    path: '/app/integration', // url
-    icon: <BoltIcon className={iconClasses}/>, // icon component
-    name: 'News', // name that appear in Sidebar
+    path: '/integration', // url
+    icon: <img className="mask mask-squircle w-6" src="news.png" alt="mandir logo"/>, // icon component
+    name: 'News Manager', // name that appear in Sidebar
   },
   {
-    path: '/app/calendar', // url
+    path: '/calendar', // url
     icon: <CalendarDaysIcon className={iconClasses}/>, // icon component
     name: 'Calendar', // name that appear in Sidebar
   },
@@ -93,7 +93,7 @@ const routes = [
     name: 'Settings', // name that appear in Sidebar
     submenu : [
       {
-        path: '/app/settings-profile', //url
+        path: '/settings-profile', //url
         icon: <UserIcon className={submenuIconClasses}/>, // icon component
         name: 'Profile', // name that appear in Sidebar
       },

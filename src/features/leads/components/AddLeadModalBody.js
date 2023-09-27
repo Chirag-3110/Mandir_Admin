@@ -9,6 +9,7 @@ import { URSL } from "../../../constants/URLS"
 import { USER_CONFIG } from "../../../constants/User"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import EmailValidate from "../../../utils/validateEmail"
 
 const INITIAL_LEAD_OBJ = {
     name : "",
@@ -38,6 +39,7 @@ function AddUserModalBody({closeModal}){
             else if(leadObj.occupation.trim() === "")  throw "Occupation is required!";
             else if(leadObj.gender.trim() === "")  throw "Gender is required!";
             else if(leadObj.email.trim() === "")  throw "Email is required!";
+            else if(!EmailValidate(leadObj.email)) throw "Please enter valid email";
             else{
                 const newLeadObj = {
                     "full_name": leadObj.name,
