@@ -41,6 +41,7 @@ function AddUserModalBody({closeModal}){
             else if(leadObj.email.trim() === "")  throw "Email is required!";
             else if(!EmailValidate(leadObj.email)) throw "Please enter valid email";
             else{
+                setLoading(true)
                 const newLeadObj = {
                     "full_name": leadObj.name,
                     "phone": leadObj.phone,
@@ -55,15 +56,15 @@ function AddUserModalBody({closeModal}){
                 const addNewUser=await API_REQUEST.postData(URSL.ADD_NEW_USER,newLeadObj,token)
                 if(addNewUser.data.status !==201)
                     throw addNewUser
-                // dispatch(addNewLead({newLeadObj}))`
-                // dispatch(showNotification({message : "New Lead Added!", status : 1}))
                 toast("New User Created");
-                console.log(addNewUser)
+                console.log(token)
                 closeModal()
             }
         } catch (error) {
             toast(error.data.message);
             console.log(error);
+        }finally{
+            setLoading(false)
         }
     }
 
@@ -71,7 +72,9 @@ function AddUserModalBody({closeModal}){
         setErrorMessage("")
         setLeadObj({...leadObj, [updateType] : value})
     }
-
+    const handleChange = (selectedOption) => {
+        setLeadObj({...leadObj, 'gender' : selectedOption.target.value})
+    };
     return(
         <>
 
@@ -82,13 +85,18 @@ function AddUserModalBody({closeModal}){
             <InputText type="text" defaultValue={leadObj.addres} updateType="addres" containerStyle="mt-4" labelTitle="Address" updateFormValue={updateFormValue}/>
             <InputText type="text" defaultValue={leadObj.email} updateType="email" containerStyle="mt-4" labelTitle="Email" updateFormValue={updateFormValue}/>
             <InputText type="text" defaultValue={leadObj.occupation} updateType="occupation" containerStyle="mt-4" labelTitle="Occupation" updateFormValue={updateFormValue}/>
-            <InputText type="text" defaultValue={leadObj.gender} updateType="gender" containerStyle="mt-4" labelTitle="Gender" updateFormValue={updateFormValue}/>
-
-
+            {/* <InputText type="text" defaultValue={leadObj.gender} updateType="gender" containerStyle="mt-4" labelTitle="Gender" updateFormValue={updateFormValue}/> */}
+            <div className="custom-select">
+                <select onChange={handleChange}>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
             <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
             <div className="modal-action">
                 <button  className="btn btn-ghost" onClick={() => closeModal()}>Cancel</button>
-                <button  className="btn btn-primary px-6" onClick={() => saveNewUser()}>Save</button>
+                <button  className={"btn btn-primary px-6" + (loading ? " loading" : "")} onClick={() => saveNewUser()}>Save</button>
             </div>
             
         </>

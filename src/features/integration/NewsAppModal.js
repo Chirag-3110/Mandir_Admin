@@ -9,11 +9,10 @@ import { USER_CONFIG } from "../../constants/User";
 import { API_REQUEST } from "../../api";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-
+import '../leads/components/file.css'
 const INITIAL_EVENT_OBJ = {
     name : "",
-    content : "",
-    file:"",
+    file:{},
 }
 
 function AddNewsModal({closeModal}){
@@ -30,9 +29,10 @@ function AddNewsModal({closeModal}){
             console.log(value)
             const formdata=new FormData(form.current);
             if(leadObj.name.trim() === "")  throw "Name is required!";
-            else if(leadObj.content.trim() === "")  throw "Address is required!";
-            else if(leadObj.file.trim() === "")  throw "File is required!";
+            else if(value === "")  throw "Address is required!";
+            else if(leadObj.file === "{}")  throw "File is required!";
             else{
+                setLoading(true)
                 formdata.append('title',leadObj.name)
                 formdata.append('content',value)
                 formdata.append('file',leadObj.file)
@@ -41,12 +41,14 @@ function AddNewsModal({closeModal}){
                 if(newsRespone.data.status!==200)
                     throw newsRespone
                 console.log(newsRespone,"ee")
-                toast(newsRespone.data.message)
+                toast("News Added Successfully")
                 closeModal()
             }
         } catch (error) {
-            toast(error.data.message);
+            toast("Can't Add News");
             console.log(error);
+        }finally{
+            setLoading(false)
         }
     }
 
@@ -54,7 +56,10 @@ function AddNewsModal({closeModal}){
         setErrorMessage("")
         setLeadObj({...leadObj, [updateType] : value})
     }
-
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setLeadObj({...leadObj,file:file});
+    };
     return(
         <>
 
@@ -66,14 +71,19 @@ function AddNewsModal({closeModal}){
                     </label>
                 <ReactQuill style={{height:150,marginBottom:50,borderRadius:50,borderColor:"grey"}} theme="snow" value={value} onChange={setValue} />
                 </section>
-                <InputText type="file" defaultValue={leadObj.file} updateType="file" containerStyle="mt-4" labelTitle="Upload File" updateFormValue={updateFormValue}/>
-
+                {/* <InputText type="file" defaultValue={leadObj.file} updateType="file" containerStyle="mt-4" labelTitle="Upload File" updateFormValue={updateFormValue}/> */}
+                <div className="parent">
+                    <div className="file-upload">
+                        <h3> {leadObj.file?.name || "Click box to upload file"}</h3>
+                        <input type="file" onChange={handleFileChange} />
+                    </div>
+                </div>
             </form>
 
             <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
             <div className="modal-action">
                 <button  className="btn btn-ghost" onClick={() => closeModal()}>Cancel</button>
-                <button  className="btn btn-primary px-6" onClick={() => saveNewEvent()}>Save</button>
+                <button  className={"btn btn-primary px-6" + (loading ? " loading" : "")} onClick={() => saveNewEvent()}>Save</button>
             </div>
             {/* <ToastContainer /> */}
         </>

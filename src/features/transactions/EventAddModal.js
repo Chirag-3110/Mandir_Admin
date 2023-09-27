@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { URSL } from "../../constants/URLS"
 import { USER_CONFIG } from "../../constants/User";
 import { API_REQUEST } from "../../api";
-
+import '../leads/components/file.css'
 const INITIAL_EVENT_OBJ = {
     name : "",
     start_date : "",
@@ -35,8 +35,9 @@ function AddEventModalBody({closeModal}){
             else if(leadObj.description.trim() === "")  throw "Description is required!";
             else if(leadObj.type.trim() === "")  throw "Type is required!";
             else if(leadObj.address.trim() === "")  throw "Address is required!";
-            else if(leadObj.file.trim() === "")  throw "File is required!";
+            else if(leadObj.file === '{}')  throw "File is required!";
             else{
+                setLoading(true)
                 formdata.append('name',leadObj.name)
                 formdata.append('start_date',leadObj.start_date)
                 formdata.append('end_date',leadObj.end_date)
@@ -44,7 +45,7 @@ function AddEventModalBody({closeModal}){
                 formdata.append('type',0)
                 formdata.append('address',leadObj.address)
                 formdata.append('file',leadObj.file)
-                console.log(leadObj,"dod")
+                
                 const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL)
                 const eventRespone=await API_REQUEST.postData(URSL.ADD_EVENTS,formdata,token,'multipart/form-data');
                 if(eventRespone.data.status!==200){
@@ -56,8 +57,14 @@ function AddEventModalBody({closeModal}){
         } catch (error) {
             toast(error.data.message)
             console.log(error);
+        }finally{
+            setLoading(false)
         }
     }
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setLeadObj({...leadObj,file:file});
+    };
 
     const updateFormValue = ({updateType, value}) => {
         setErrorMessage("")
@@ -74,14 +81,19 @@ function AddEventModalBody({closeModal}){
                 <InputText type="text" defaultValue={leadObj.description} updateType="description" containerStyle="mt-4" labelTitle="Description" updateFormValue={updateFormValue}/>
                 <InputText type="text" defaultValue={leadObj.type} updateType="type" containerStyle="mt-4" labelTitle="Event Type" updateFormValue={updateFormValue}/>
                 <InputText type="text" defaultValue={leadObj.address} updateType="address" containerStyle="mt-4" labelTitle="Address" updateFormValue={updateFormValue}/>
-                <InputText type="file" defaultValue={leadObj.file?.name} updateType="file" containerStyle="mt-4" labelTitle="Upload File" updateFormValue={updateFormValue}/>
-
+                {/* <InputText type="file" defaultValue={leadObj.file?.name} updateType="file" containerStyle="mt-4" labelTitle="Upload File" updateFormValue={updateFormValue}/> */}
+                <div className="parent">
+                    <div className="file-upload">
+                        <h3> {leadObj.file?.name || "Click box to upload file"}</h3>
+                        <input type="file" onChange={handleFileChange} />
+                    </div>
+                </div>
             </form>
 
             <ErrorText styleClass="mt-16">{errorMessage}</ErrorText>
             <div className="modal-action">
                 <button  className="btn btn-ghost" onClick={() => closeModal()}>Cancel</button>
-                <button  className="btn btn-primary px-6" onClick={() => saveNewEvent()}>Save</button>
+                <button  className={"btn btn-primary px-6" + (loading ? " loading" : "")} onClick={() => saveNewEvent()}>Save</button>
             </div>
             {/* <ToastContainer /> */}
         </>

@@ -17,5 +17,7 @@ export const URSL={
     GET_NEWS:"news/list",
     DELETE_UPDATE_NEWS:"news/delete-status",
     NEWS_DETAIL:"news/details",
-    UPDATE_NEWS_STATUS:"news/change-status"
+    UPDATE_NEWS_STATUS:"news/change-status",
+
+    EXCEL_UPLOAD:"get-file"
 }

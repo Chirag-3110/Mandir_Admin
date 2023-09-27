@@ -24,7 +24,7 @@ function App() {
   
   const [user,setUser]=useState(null)
   useEffect(() => {
-    themeChange(false)
+    themeChange(true)
     const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL);
     if(token){
       //call get profile

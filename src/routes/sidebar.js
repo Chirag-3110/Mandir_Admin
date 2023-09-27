@@ -30,7 +30,7 @@ const routes = [
 
   {
     path: '/',
-    icon: <img className="mask w-6" src={DashBoard} alt="dashboard"/>, 
+    icon: <img className="mask w-6"  src={DashBoard} alt="dashboard"/>, 
     name: 'Dashboard',
   },
   {
