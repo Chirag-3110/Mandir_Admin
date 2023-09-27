@@ -18,6 +18,10 @@ import InboxArrowDownIcon from '@heroicons/react/24/outline/InboxArrowDownIcon'
 import UsersIcon from '@heroicons/react/24/outline/UsersIcon'
 import KeyIcon from '@heroicons/react/24/outline/KeyIcon'
 import DocumentDuplicateIcon from '@heroicons/react/24/outline/DocumentDuplicateIcon'
+import DashBoard from '../assets/dashboard.png';
+import User from '../assets/user.png';
+import Evennts from '../assets/events.png';
+import News from '../assets/news.png';
 
 const iconClasses = `h-6 w-6`
 const submenuIconClasses = `h-5 w-5`
@@ -26,17 +30,17 @@ const routes = [
 
   {
     path: '/',
-    icon: <img className="mask mask-squircle w-6" src="../../assets\dashboard.png" alt="dashboard"/>, 
+    icon: <img className="mask w-6" src={DashBoard} alt="dashboard"/>, 
     name: 'Dashboard',
   },
   {
     path: '/leads', // url
-    icon: <img className="mask mask-squircle w-6" src="user.png" alt="mandir logo"/>, // icon component
+    icon: <img className="mask w-6" src={User} alt="mandir logo"/>, // icon component
     name: 'Users Manager', // name that appear in Sidebar
   },
   {
     path: '/transactions', // url
-    icon: <img className="mask mask-squircle w-6" src="events.png" alt="mandir logo"/>, // icon component
+    icon: <img className="mask w-6" src={Evennts} alt="mandir logo"/>, // icon component
     name: 'Events Manager', // name that appear in Sidebar
   },
   // {
@@ -46,7 +50,7 @@ const routes = [
   // },
   {
     path: '/integration', // url
-    icon: <img className="mask mask-squircle w-6" src="news.png" alt="mandir logo"/>, // icon component
+    icon: <img className="mask w-6" src={News} alt="mandir logo"/>, // icon component
     name: 'News Manager', // name that appear in Sidebar
   },
   {

@@ -28,6 +28,20 @@ const TopSideButtons = () => {
         </div>
     )
 }
+const TopSecondButton = () => {
+
+    const dispatch = useDispatch()
+
+    const openAddNewLeadModal = () => {
+        dispatch(openModal({title : "Add Excel File", bodyType : MODAL_BODY_TYPES.MODAL_EXCEL_ADD}))
+    }
+
+    return(
+        <div className="inline-block float-right" style={{marginLeft: 10,}}>
+            <button className="btn px-6 btn-sm normal-case btn-primary" onClick={() => openAddNewLeadModal()}>Add Excel File</button>
+        </div>
+    )
+}
 
 function Leads(){
 
@@ -96,7 +110,10 @@ function Leads(){
     return(
         <>
             
-            <TitleCard title="Current Users" topMargin="mt-2" TopSideButtons={<TopSideButtons />}>
+            <TitleCard title="Current Users" topMargin="mt-2" TopSideButtons={<>
+                <TopSecondButton />
+                <TopSideButtons />
+            </>}>
 
                 {/* Leads List in table format loaded from slice after api call */}
             <div className="overflow-x-auto w-full">

@@ -6,6 +6,7 @@ module.exports = Object.freeze({
         EVENT_ADD_NEW:"EVENT_ADD_NEW",
         CONFIRMATION : "CONFIRMATION",
         NEWS_ADD_MODAL:"NEWS_ADD_MODAL",
+        MODAL_EXCEL_ADD:"MODAL_EXCEL_ADD",
         DEFAULT : "",
     },
 

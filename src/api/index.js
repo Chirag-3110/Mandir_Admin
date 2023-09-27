@@ -3,7 +3,7 @@ import axios from "axios";
 class ApiHelper{
     constructor(baseurl){
         this.baseurl=baseurl;
-        this.headers={contentType : "application/json",accept:"*/*"};
+        this.headers={contentType : "application/json"};
     }
     getData=async(url,token,params)=>{
         console.log(`${this.baseurl}/${url}`)
