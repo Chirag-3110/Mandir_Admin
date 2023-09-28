@@ -45,7 +45,7 @@ class ApiHelper{
                 return {data:response.data,error:false};
             })
             .catch(function (error) {
-                console.log(error)
+                console.log(error,"ss")
                 return {data:error.message,error:true}
             })
     }

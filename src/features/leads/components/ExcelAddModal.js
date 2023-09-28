@@ -36,19 +36,18 @@ function AddExcelFile({closeModal}){
             else{
                 setLoading(true)
                 const data=new FormData();
-                data.append('file',leadObj.file);
+                data.append('file',leadObj);
                 console.log(leadObj)
                 const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL)
-                const adeFileRes=await API_REQUEST.postData(URSL.EXCEL_UPLOAD,leadObj,token,'multipart/form-data')
-                // if(adeFileRes.data.status !==201)
-                //     throw adeFileRes
-                // toast("File uploaded Succeddfully");
-                console.log(adeFileRes)
-                // closeModal()
+                console.log(data.get('file'))
+                const adeFileRes=await API_REQUEST.postData(URSL.EXCEL_UPLOAD,data,token,'multipart/form-data')
+                if(adeFileRes.data.status !==200)
+                    throw adeFileRes
+                toast("File uploaded Succeddfully");
+                closeModal()
             }
         } catch (error) {
-            toast("File not uploaded");
-            console.log(error);
+            toast(error.data.message);
         }finally{
             setLoading(false)
         }
@@ -56,7 +55,7 @@ function AddExcelFile({closeModal}){
 
     const updateFormValue = ({updateType, value}) => {
         setErrorMessage("")
-        setLeadObj({...leadObj, [updateType] : value})
+        setLeadObj({...leadObj, 'file' : value})
     }
 
     return(

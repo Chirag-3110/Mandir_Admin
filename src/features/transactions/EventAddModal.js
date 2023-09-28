@@ -8,6 +8,7 @@ import { URSL } from "../../constants/URLS"
 import { USER_CONFIG } from "../../constants/User";
 import { API_REQUEST } from "../../api";
 import '../leads/components/file.css'
+import '../leads/components/radio.css'
 const INITIAL_EVENT_OBJ = {
     name : "",
     start_date : "",
@@ -17,7 +18,6 @@ const INITIAL_EVENT_OBJ = {
     address:"",
     file:{},
 }
-
 function AddEventModalBody({closeModal}){
     const form=useRef();
     const dispatch = useDispatch()
@@ -70,7 +70,9 @@ function AddEventModalBody({closeModal}){
         setErrorMessage("")
         setLeadObj({...leadObj, [updateType] : value})
     }
-
+    const handleChange = (selectedOption) => {
+        setLeadObj({...leadObj, 'type' : selectedOption.target.value})
+    };
     return(
         <>
 
@@ -79,7 +81,16 @@ function AddEventModalBody({closeModal}){
                 <InputText type="date" defaultValue={leadObj.start_date} updateType="start_date" containerStyle="mt-4" labelTitle="Start Date" updateFormValue={updateFormValue}/>
                 <InputText type="date" defaultValue={leadObj.end_date} updateType="end_date" containerStyle="mt-4" labelTitle="End Date" updateFormValue={updateFormValue}/>
                 <InputText type="text" defaultValue={leadObj.description} updateType="description" containerStyle="mt-4" labelTitle="Description" updateFormValue={updateFormValue}/>
-                <InputText type="text" defaultValue={leadObj.type} updateType="type" containerStyle="mt-4" labelTitle="Event Type" updateFormValue={updateFormValue}/>
+                
+                <div className="custom-select">
+                    <select onChange={handleChange}>
+                        <option value="">Select Event Type</option>
+                        <option value={0}>Live</option>
+                        <option value={1}>Onsite</option>
+                    </select>
+                </div>
+                {/* <InputText type="text" defaultValue={leadObj.type} updateType="type" containerStyle="mt-4" labelTitle="Event Type" updateFormValue={updateFormValue}/> */}
+                
                 <InputText type="text" defaultValue={leadObj.address} updateType="address" containerStyle="mt-4" labelTitle="Address" updateFormValue={updateFormValue}/>
                 {/* <InputText type="file" defaultValue={leadObj.file?.name} updateType="file" containerStyle="mt-4" labelTitle="Upload File" updateFormValue={updateFormValue}/> */}
                 <div className="parent">
