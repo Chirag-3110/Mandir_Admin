@@ -1,7 +1,6 @@
 import React, { lazy, useEffect } from 'react'
 import './App.css';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
-import { themeChange } from 'theme-change'
 import checkAuth from './app/auth';
 import initializeApp from './app/init';
 import { useState } from 'react';
@@ -24,7 +23,7 @@ function App() {
   
   const [user,setUser]=useState(null)
   useEffect(() => {
-    themeChange(true)
+    //themeChange(true)
     const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL);
     if(token){
       //call get profile

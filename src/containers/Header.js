@@ -1,4 +1,3 @@
-import { themeChange } from 'theme-change'
 import React, {  useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import BellIcon  from '@heroicons/react/24/outline/BellIcon'
@@ -15,17 +14,7 @@ function Header(){
 
     const dispatch = useDispatch()
     const {noOfNotifications, pageTitle} = useSelector(state => state.header)
-    const [currentTheme, setCurrentTheme] = useState(localStorage.getItem("theme"))
-
     useEffect(() => {
-        themeChange(false)
-        if(currentTheme === null){
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ) {
-                setCurrentTheme("dark")
-            }else{
-                setCurrentTheme("light")
-            }
-        }
         // 👆 false parameter is required for react project
       }, [])
 
