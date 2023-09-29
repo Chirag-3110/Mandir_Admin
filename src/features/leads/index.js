@@ -44,7 +44,7 @@ const TopSecondButton = () => {
 }
 
 function Leads(){
-
+    const dispatch=useDispatch()
     const [allUsers,setAllUsers]=useState([]);
 
     useEffect(()=>{
@@ -125,6 +125,7 @@ function Leads(){
                         <th>Phone</th>
                         <th>Activity</th>
                         <th>Delete Status</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -133,30 +134,35 @@ function Leads(){
                             allUsers.map((l, k) => {
                                 return(
                                     <tr key={k}>
-                                    <td>
-                                        <div className="flex items-center space-x-3">
-                                            {/* <div className="avatar">
-                                                <div className="mask mask-squircle w-12 h-12">
-                                                    <img src={l.avatar} alt="Avatar" />
+                                        <td>
+                                            <div className="flex items-center space-x-3">
+                                                {/* <div className="avatar">
+                                                    <div className="mask mask-squircle w-12 h-12">
+                                                        <img src={l.avatar} alt="Avatar" />
+                                                    </div>
+                                                </div> */}
+                                                <div>
+                                                    <div className="font-bold">{l.full_name}</div>
                                                 </div>
-                                            </div> */}
-                                            <div>
-                                                <div className="font-bold">{l.full_name}</div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td>{l.email}</td>
-                                    <td>{l.phone}</td>
-                                    <td>
-                                        <button className="btn btn-square btn-ghost" onClick={() => updateuserActiveStatus(l,k)}>
-                                            <td style={{color:l.is_active?"green":"red"}}>{l.is_active?"ACTIVE":"InActive"}</td>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button className="btn btn-square btn-ghost" onClick={() => deleteUser(l,k)}>
-                                            <td style={{color:l.is_delete?"green":"red"}}>{l.is_delete?"DELETED":"DELETE"}</td>
-                                        </button>
-                                    </td>
+                                        </td>
+                                        <td>{l.email}</td>
+                                        <td>{l.phone}</td>
+                                        <td>
+                                            <button className="btn btn-square btn-ghost" onClick={() => updateuserActiveStatus(l,k)}>
+                                                <td style={{color:l.is_active?"green":"red"}}>{l.is_active?"ACTIVE":"InActive"}</td>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button className="btn btn-square btn-ghost" onClick={() => deleteUser(l,k)}>
+                                                <td style={{color:l.is_delete?"green":"red"}}>{l.is_delete?"DELETED":"DELETE"}</td>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button className="btn btn-square btn-ghost" onClick={() => dispatch(openModal({title : "Edit User", bodyType : MODAL_BODY_TYPES.LEAD_ADD_NEW}))}>
+                                                <td style={{color:"green"}}>Edit</td>
+                                            </button>
+                                        </td>
                                     </tr>
                                 )
                             })
