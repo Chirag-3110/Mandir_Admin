@@ -123,6 +123,10 @@ function Leads(){
                         <th>Name</th>
                         <th>Email Id</th>
                         <th>Phone</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Occupation</th>
+                        <th>Gotra</th>
                         <th>Activity</th>
                         <th>Delete Status</th>
                         <th>Actions</th>
@@ -148,6 +152,10 @@ function Leads(){
                                         </td>
                                         <td>{l.email}</td>
                                         <td>{l.phone}</td>
+                                        <td>{l.age}</td>
+                                        <td>{l.gender}</td>
+                                        <td>{l.occupation}</td>
+                                        <td>{l.gotra}</td>
                                         <td>
                                             <button className="btn btn-square btn-ghost" onClick={() => updateuserActiveStatus(l,k)}>
                                                 <td style={{color:l.is_active?"green":"red"}}>{l.is_active?"ACTIVE":"InActive"}</td>

@@ -53,11 +53,11 @@ const routes = [
     icon: <img className="mask w-6" src={News} alt="mandir logo"/>, // icon component
     name: 'News Manager', // name that appear in Sidebar
   },
-  {
-    path: '/calendar', // url
-    icon: <CalendarDaysIcon className={iconClasses}/>, // icon component
-    name: 'Calendar', // name that appear in Sidebar
-  },
+  // {
+  //   path: '/calendar', // url
+  //   icon: <CalendarDaysIcon className={iconClasses}/>, // icon component
+  //   name: 'Calendar', // name that appear in Sidebar
+  // },
 
   // {
   //   path: '', //no url needed as this has submenu
