@@ -19,5 +19,6 @@ export const URSL={
     NEWS_DETAIL:"news/details",
     UPDATE_NEWS_STATUS:"news/change-status",
 
-    EXCEL_UPLOAD:"get-file"
+    EXCEL_UPLOAD:"get-file",
+    EDIT_USER:"edit-user"
 }

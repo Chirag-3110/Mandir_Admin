@@ -99,6 +99,7 @@ function Integration(){
                     <thead>
                     <tr>
                         <th>Title</th>
+                        <th>Publised date</th>
                         <th>Activity</th>
                         <th>Delete</th>
                         <th></th>
@@ -114,6 +115,13 @@ function Integration(){
                                             <div className="flex items-center space-x-3">
                                                 <div>
                                                     <div className="font-bold">{item.title}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className="flex items-center space-x-3">
+                                                <div>
+                                                    {new Date(item.created_at).getFullYear()}-{new Date(item.created_at).getMonth()}-{new Date(item.created_at).getDate()}
                                                 </div>
                                             </div>
                                         </td>

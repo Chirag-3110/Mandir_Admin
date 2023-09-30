@@ -1,7 +1,5 @@
 const EmailValidate=(email)=>{
-    if(email.match(/^[^@]+@[^@]+\.[^@]+$/)){
-        return false;
-    }
-    return true
+    const  re = /\S+@\S+\.\S+/;
+    return re.test(email);
 }
 export default EmailValidate

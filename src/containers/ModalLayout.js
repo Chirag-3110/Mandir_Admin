@@ -7,6 +7,7 @@ import ConfirmationModalBody from '../features/common/components/ConfirmationMod
 import AddEventModalBody from '../features/transactions/EventAddModal'
 import AddNewsModal from '../features/integration/NewsAppModal'
 import AddExcelFile from '../features/leads/components/ExcelAddModal'
+import EditUserModalBody from '../features/leads/components/EditLead'
 
 
 function ModalLayout(){
@@ -37,6 +38,8 @@ function ModalLayout(){
                     {
                              [MODAL_BODY_TYPES.LEAD_ADD_NEW] : <AddLeadModalBody closeModal={close} extraObject={extraObject}/>,
                              [MODAL_BODY_TYPES.EVENT_ADD_NEW] : <AddEventModalBody closeModal={close} extraObject={extraObject}/>,
+                             [MODAL_BODY_TYPES.EDIT_LEAD_MODAL] : <EditUserModalBody closeModal={close} extraObject={extraObject}/>,
+
                              [MODAL_BODY_TYPES.NEWS_ADD_MODAL] : <AddNewsModal closeModal={close} extraObject={extraObject}/>,
                              [MODAL_BODY_TYPES.MODAL_EXCEL_ADD] : <AddExcelFile closeModal={close} extraObject={extraObject}/>,
                              [MODAL_BODY_TYPES.CONFIRMATION] : <ConfirmationModalBody extraObject={extraObject} closeModal={close}/>,

@@ -8,6 +8,7 @@ module.exports = Object.freeze({
         NEWS_ADD_MODAL:"NEWS_ADD_MODAL",
         MODAL_EXCEL_ADD:"MODAL_EXCEL_ADD",
         DEFAULT : "",
+        EDIT_LEAD_MODAL:"EDIT_LEAD_MODAL"
     },
 
     RIGHT_DRAWER_TYPES : {

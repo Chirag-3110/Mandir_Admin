@@ -167,7 +167,7 @@ function Leads(){
                                             </button>
                                         </td>
                                         <td>
-                                            <button className="btn btn-square btn-ghost" onClick={() => dispatch(openModal({title : "Edit User", bodyType : MODAL_BODY_TYPES.LEAD_ADD_NEW}))}>
+                                            <button className="btn btn-square btn-ghost" onClick={() => dispatch(openModal({title : "Edit User", bodyType : MODAL_BODY_TYPES.EDIT_LEAD_MODAL,extraObject:l}))}>
                                                 <td style={{color:"green"}}>Edit</td>
                                             </button>
                                         </td>
