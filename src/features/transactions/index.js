@@ -11,6 +11,9 @@ import { openModal } from "../common/modalSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '../leads/paginate.css'
+import ReactPaginate from "react-paginate"
+
 
 const TopSideButtons = () => {
 
@@ -26,22 +29,40 @@ const TopSideButtons = () => {
         </div>
     )
 }
+let PageSize = 0;
 
 function Transactions(){
 
 
-    const [events, setEvents] = useState(RECENT_TRANSACTIONS)
+    const [events, setEvents] = useState(RECENT_TRANSACTIONS);
+    const [page,setPage]=useState(1)
+
+    const [postsPerPage] = useState(10);
+
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    // const currentPosts = blogPosts.slice(indexOfFirstPost, indexOfLastPost);
+  
 
     useEffect(()=>{
         getAllEvents()
-    },[])
-    const getAllEvents=async()=>{
+    },[]);
+    const paginate = ({ selected }) => {
+        setCurrentPage(selected + 1);
+        getAllEvents(selected+1)
+    };
+
+    const getAllEvents=async(page)=>{
         try {
             const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL);
-            const eventsApi=await API_REQUEST.getData(URSL.GET_EVENTS,token);
+            const eventsApi=await API_REQUEST.getData(URSL.GET_EVENTS,token,{page:page});
             if(eventsApi.data.status != 200)
                 throw eventsApi
-            setEvents(eventsApi.data.data)
+            setEvents(eventsApi.data.data.events);
+            PageSize=eventsApi?.data.data.pagination.totalPages
+            setCurrentPage(eventsApi?.data.data.pagination.page)
         } catch (error) {
             toast("Cannot fetch events");
             console.log(error);
@@ -144,6 +165,17 @@ function Transactions(){
                 </table>
             </div>
             </TitleCard>
+            <ReactPaginate
+                  onPageChange={paginate}
+                  pageCount={PageSize}
+                  previousLabel={'Prev'}
+                  nextLabel={'Next'}
+                  containerClassName={'pagination'}
+                  pageLinkClassName={'page-number'}
+                  previousLinkClassName={'page-number'}
+                  nextLinkClassName={'page-number'}
+                  activeLinkClassName={'active'}
+            />
             <ToastContainer />
         </>
     )

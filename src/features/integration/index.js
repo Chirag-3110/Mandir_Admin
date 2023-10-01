@@ -10,6 +10,8 @@ import { USER_CONFIG } from "../../constants/User"
 import {API_REQUEST} from '../../api/index';
 import { openModal } from "../common/modalSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
+import ReactPaginate from "react-paginate"
+import '../leads/paginate.css'
 
 const TopSideButtons = () => {
 
@@ -26,23 +28,41 @@ const TopSideButtons = () => {
     )
 }
 
+let PageSize = 0;
 
 function Integration(){
 
     const dispatch = useDispatch()
 
     const [newsList, setnewsList] = useState([])
+    const [page,setPage]=useState(1)
+
+    const [postsPerPage] = useState(10);
+
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    // const currentPosts = blogPosts.slice(indexOfFirstPost, indexOfLastPost);
+  
+    const paginate = ({ selected }) => {
+       setCurrentPage(selected + 1);
+       getNewsList(selected+1)
+    };
+
     useEffect(()=>{
-        getNewsList();
+        getNewsList(page);
     },[])
-    const getNewsList=async()=>{
+    const getNewsList=async(page)=>{
         try {
             const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL)
-            const news=await API_REQUEST.getData(URSL.GET_NEWS,token)
+            const news=await API_REQUEST.getData(URSL.GET_NEWS,token,{page:page})
             console.log(news,"ss")
             if(news.data.status==200){
-                console.log(news.data.data)
-                setnewsList(news?.data?.data)
+                // console.log(news.data.data)
+                setnewsList(news?.data?.data.news)
+                PageSize=news?.data.data.pagination.totalPages
+                setCurrentPage(news?.data.data.pagination.page)
             }else{
                 throw news
             }
@@ -143,6 +163,17 @@ function Integration(){
                 </table>
             </div>
             </TitleCard>
+            <ReactPaginate
+                  onPageChange={paginate}
+                  pageCount={PageSize}
+                  previousLabel={'Prev'}
+                  nextLabel={'Next'}
+                  containerClassName={'pagination'}
+                  pageLinkClassName={'page-number'}
+                  previousLinkClassName={'page-number'}
+                  nextLinkClassName={'page-number'}
+                  activeLinkClassName={'active'}
+            />
             <ToastContainer />
         </>
     )

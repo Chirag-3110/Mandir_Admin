@@ -55,8 +55,6 @@ function Leads(){
 
     const [currentPage, setCurrentPage] = useState(1);
 
-    const indexOfLastPost = currentPage * postsPerPage;
-    const indexOfFirstPost = indexOfLastPost - postsPerPage;
     // const currentPosts = blogPosts.slice(indexOfFirstPost, indexOfLastPost);
   
     const paginate = ({ selected }) => {
