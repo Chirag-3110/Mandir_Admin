@@ -29,7 +29,7 @@ const routes = [
   //   component: Welcome, // view rendered
   // },
   {
-    path: '/leads',
+    path: '/users',
     component: Leads,
   },
   {
@@ -41,7 +41,7 @@ const routes = [
     component: Calendar,
   },
   {
-    path: '/transactions',
+    path: '/events',
     component: Transactions,
   },
   {
@@ -65,7 +65,7 @@ const routes = [
     component: DocComponents,
   },
   {
-    path: '/integration',
+    path: '/news',
     component: Integration,
   },
   {

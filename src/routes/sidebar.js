@@ -34,12 +34,12 @@ const routes = [
     name: 'Dashboard',
   },
   {
-    path: '/leads', // url
+    path: '/users', // url
     icon: <img className="mask w-6" src={User} alt="mandir logo"/>, // icon component
     name: 'Users Manager', // name that appear in Sidebar
   },
   {
-    path: '/transactions', // url
+    path: '/events', // url
     icon: <img className="mask w-6" src={Evennts} alt="mandir logo"/>, // icon component
     name: 'Events Manager', // name that appear in Sidebar
   },
@@ -49,7 +49,7 @@ const routes = [
   //   name: 'Analytics', // name that appear in Sidebar
   // },
   {
-    path: '/integration', // url
+    path: '/news', // url
     icon: <img className="mask w-6" src={News} alt="mandir logo"/>, // icon component
     name: 'News Manager', // name that appear in Sidebar
   },
