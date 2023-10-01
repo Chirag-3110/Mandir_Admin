@@ -1,5 +1,5 @@
 import moment from "moment"
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import TitleCard from "../../components/Cards/TitleCard"
 import { openModal } from "../common/modalSlice"
@@ -13,7 +13,9 @@ import { useState } from "react"
 import { USER_CONFIG } from "../../constants/User"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Pagination from "../../components/pagination/pagination"
+import ReactPaginate from "react-paginate"
+import './paginate.css'
 const TopSideButtons = () => {
 
     const dispatch = useDispatch()
@@ -42,23 +44,40 @@ const TopSecondButton = () => {
         </div>
     )
 }
+let PageSize = 0;
 
 function Leads(){
     const dispatch=useDispatch()
     const [allUsers,setAllUsers]=useState([]);
+    const [page,setPage]=useState(1)
 
+    const [postsPerPage] = useState(10);
+
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    // const currentPosts = blogPosts.slice(indexOfFirstPost, indexOfLastPost);
+  
+    const paginate = ({ selected }) => {
+       setCurrentPage(selected + 1);
+       getAllUsers(selected+1)
+    };
+
+    
     useEffect(()=>{
-        getAllUsers()
+        getAllUsers(page)
     },[])
     
-    const getAllUsers=async()=>{
+    const getAllUsers=async(page)=>{
         try {
         const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL)
-            const usersList=await API_REQUEST.getData(URSL.GET_USER,token)
-            console.log(usersList,"ss")
+            const usersList=await API_REQUEST.getData(URSL.GET_USER,token,{page:page});
             if(usersList.data.status==200){
                 console.log(usersList.data.data)
-                setAllUsers(usersList?.data?.data)
+                setAllUsers(usersList?.data?.data.users)
+                PageSize=usersList?.data.data.pagination.totalPages
+                setCurrentPage(usersList?.data.data.pagination.page)
             }else{
                 throw usersList
             }
@@ -116,6 +135,7 @@ function Leads(){
             </>}>
 
                 {/* Leads List in table format loaded from slice after api call */}
+
             <div className="overflow-x-auto w-full">
                 <table className="table w-full">
                     <thead>
@@ -179,6 +199,17 @@ function Leads(){
                 </table>
             </div>
             </TitleCard>
+            <ReactPaginate
+                  onPageChange={paginate}
+                  pageCount={PageSize}
+                  previousLabel={'Prev'}
+                  nextLabel={'Next'}
+                  containerClassName={'pagination'}
+                  pageLinkClassName={'page-number'}
+                  previousLinkClassName={'page-number'}
+                  nextLinkClassName={'page-number'}
+                  activeLinkClassName={'active'}
+            />
             <ToastContainer />
         </>
     )
