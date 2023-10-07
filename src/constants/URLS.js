@@ -20,5 +20,11 @@ export const URSL={
     UPDATE_NEWS_STATUS:"news/change-status",
 
     EXCEL_UPLOAD:"get-file",
-    EDIT_USER:"edit-user"
+    EDIT_USER:"edit-user",
+    EDIT_EVENT:"events/edit",
+    EDIT_NEWS:"news/edit",
+
+    SEARHC_USER:"user/search",
+    SEARHC_EVENT:"events/search",
+    SEARHC_NEWS:"news/search"
 }

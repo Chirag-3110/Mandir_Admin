@@ -31,15 +31,15 @@ function AddUserModalBody({closeModal}){
 
     const saveNewUser = async () => {
         try {
-            if(leadObj.name.trim() === "")  throw "Name is required!";
-            else if(leadObj.phone.trim() === "")  throw "phone is required!";
-            else if(leadObj.age.trim() === "")  throw "age is required!";
-            else if(leadObj.gotra.trim() === "")  throw "gotra is required!";
-            else if(leadObj.addres.trim() === "")  throw "Address is required!";
-            else if(leadObj.occupation.trim() === "")  throw "Occupation is required!";
-            else if(leadObj.gender.trim() === "")  throw "Gender is required!";
-            else if(leadObj.email.trim() === "")  throw "Email is required!";
-            else if(!EmailValidate(leadObj.email)) throw "Please enter valid email";
+            if(leadObj.name.trim() === "")  throw {message:"Name is required!"};
+            else if(leadObj.phone.trim() === "")  throw {message:"phone is required!"};
+            else if(leadObj.age.trim() === "")  throw {message:"age is required!"};
+            else if(leadObj.gotra.trim() === "")  throw {message:"gotra is required!"};
+            else if(leadObj.addres.trim() === "")  throw {message:"Address is required!"};
+            else if(leadObj.occupation.trim() === "")  throw {message:"Occupation is required!"};
+            else if(leadObj.gender.trim() === "")  throw {message:"Gender is required!"};
+            else if(leadObj.email.trim() === "")  throw {message:"Email is required!"};
+            else if(!EmailValidate(leadObj.email)) throw {message:"Please enter valid email"};
             else{
                 setLoading(true)
                 const newLeadObj = {
@@ -55,13 +55,13 @@ function AddUserModalBody({closeModal}){
                 const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL)
                 const addNewUser=await API_REQUEST.postData(URSL.ADD_NEW_USER,newLeadObj,token)
                 if(addNewUser.data.status !==201)
-                    throw addNewUser
+                    throw addNewUser.data
                 toast("New User Created");
                 console.log(token)
                 closeModal()
             }
         } catch (error) {
-            toast(error.data.message);
+            toast(error.message);
             console.log(error);
         }finally{
             setLoading(false)

@@ -12,6 +12,7 @@ import { openModal } from "../common/modalSlice"
 import { CONFIRMATION_MODAL_CLOSE_TYPES, MODAL_BODY_TYPES } from '../../utils/globalConstantUtil'
 import ReactPaginate from "react-paginate"
 import '../leads/paginate.css'
+import SearchBar from "../../components/SearchBar"
 
 const TopSideButtons = () => {
 
@@ -33,6 +34,7 @@ let PageSize = 0;
 function Integration(){
 
     const dispatch = useDispatch()
+    const [searchedUser,serDearchedUser]=useState([]);
 
     const [newsList, setnewsList] = useState([])
     const [page,setPage]=useState(1)
@@ -114,6 +116,7 @@ function Integration(){
     return(
         <>
             <TitleCard title="All News" topMargin="mt-2" TopSideButtons={<TopSideButtons />} >
+            <SearchBar url={URSL.SEARHC_NEWS} results={(value)=>serDearchedUser(value)} />
              <div className="overflow-x-auto w-full">
                 <table className="table w-full">
                     <thead>
@@ -122,13 +125,13 @@ function Integration(){
                         <th>Publised date</th>
                         <th>Activity</th>
                         <th>Delete</th>
-                        <th></th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                         {
-                            newsList.length>0 &&
-                            newsList.map((item, index) => {
+                            (searchedUser.length==0?newsList:searchedUser).length>0 &&
+                            (searchedUser.length==0?newsList:searchedUser).map((item, index) => {
                                 return(
                                     <tr key={index}>
                                         <td>
@@ -155,6 +158,11 @@ function Integration(){
                                                 <td style={{color:item.is_delete?"green":"red"}}>{item.is_delete?"DELETED":"DELETE"}</td>
                                             </button>
                                         </td>
+                                        <td>
+                                            <button className="btn btn-square btn-ghost" onClick={() => dispatch(openModal({title : "Edit News", bodyType : MODAL_BODY_TYPES.EDIT_NEWS_MODAL,extraObject:item}))}>
+                                                <td style={{color:"green"}}>Edit</td>
+                                            </button>
+                                        </td>
                                     </tr>
                                 )
                             })
@@ -163,17 +171,20 @@ function Integration(){
                 </table>
             </div>
             </TitleCard>
-            <ReactPaginate
-                  onPageChange={paginate}
-                  pageCount={PageSize}
-                  previousLabel={'Prev'}
-                  nextLabel={'Next'}
-                  containerClassName={'pagination'}
-                  pageLinkClassName={'page-number'}
-                  previousLinkClassName={'page-number'}
-                  nextLinkClassName={'page-number'}
-                  activeLinkClassName={'active'}
-            />
+            {
+                searchedUser.length==0 &&
+                <ReactPaginate
+                    onPageChange={paginate}
+                    pageCount={PageSize}
+                    previousLabel={'Prev'}
+                    nextLabel={'Next'}
+                    containerClassName={'pagination'}
+                    pageLinkClassName={'page-number'}
+                    previousLinkClassName={'page-number'}
+                    nextLinkClassName={'page-number'}
+                    activeLinkClassName={'active'}
+                />
+            }
             <ToastContainer />
         </>
     )

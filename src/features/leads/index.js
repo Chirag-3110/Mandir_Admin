@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Pagination from "../../components/pagination/pagination"
 import ReactPaginate from "react-paginate"
 import './paginate.css'
+import SearchBar from "../../components/SearchBar"
 const TopSideButtons = () => {
 
     const dispatch = useDispatch()
@@ -49,14 +50,9 @@ let PageSize = 0;
 function Leads(){
     const dispatch=useDispatch()
     const [allUsers,setAllUsers]=useState([]);
+    const [searchedUser,serDearchedUser]=useState([]);
     const [page,setPage]=useState(1)
-
-    const [postsPerPage] = useState(10);
-
     const [currentPage, setCurrentPage] = useState(1);
-
-    // const currentPosts = blogPosts.slice(indexOfFirstPost, indexOfLastPost);
-  
     const paginate = ({ selected }) => {
        setCurrentPage(selected + 1);
        getAllUsers(selected+1)
@@ -134,6 +130,7 @@ function Leads(){
 
                 {/* Leads List in table format loaded from slice after api call */}
 
+            <SearchBar url={URSL.SEARHC_USER} results={(value)=>serDearchedUser(value)} />
             <div className="overflow-x-auto w-full">
                 <table className="table w-full">
                     <thead>
@@ -152,8 +149,8 @@ function Leads(){
                     </thead>
                     <tbody>
                         {
-                            allUsers.length>0 &&
-                            allUsers.map((l, k) => {
+                            (searchedUser.length==0?allUsers:searchedUser).length>0 &&
+                            (searchedUser.length==0?allUsers:searchedUser).map((l, k) => {
                                 return(
                                     <tr key={k}>
                                         <td>
@@ -197,17 +194,20 @@ function Leads(){
                 </table>
             </div>
             </TitleCard>
-            <ReactPaginate
-                  onPageChange={paginate}
-                  pageCount={PageSize}
-                  previousLabel={'Prev'}
-                  nextLabel={'Next'}
-                  containerClassName={'pagination'}
-                  pageLinkClassName={'page-number'}
-                  previousLinkClassName={'page-number'}
-                  nextLinkClassName={'page-number'}
-                  activeLinkClassName={'active'}
-            />
+            {
+                searchedUser.length==0 &&
+                <ReactPaginate
+                    onPageChange={paginate}
+                    pageCount={PageSize}
+                    previousLabel={'Prev'}
+                    nextLabel={'Next'}
+                    containerClassName={'pagination'}
+                    pageLinkClassName={'page-number'}
+                    previousLinkClassName={'page-number'}
+                    nextLinkClassName={'page-number'}
+                    activeLinkClassName={'active'}
+                />
+            }
             <ToastContainer />
         </>
     )

@@ -13,11 +13,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../leads/paginate.css'
 import ReactPaginate from "react-paginate"
+import SearchBar from "../../components/SearchBar"
 
 
 const TopSideButtons = () => {
 
     const dispatch = useDispatch()
+    const [searchedUser,serDearchedUser]=useState([]);
 
     const openAddNewLeadModal = () => {
         dispatch(openModal({title : "Add New Event", bodyType : MODAL_BODY_TYPES.EVENT_ADD_NEW}))
@@ -32,7 +34,8 @@ const TopSideButtons = () => {
 let PageSize = 0;
 
 function Transactions(){
-
+    const dispatch=useDispatch();
+    const [searchedUser,serDearchedUser]=useState([]);
 
     const [events, setEvents] = useState(RECENT_TRANSACTIONS);
     const [page,setPage]=useState(1)
@@ -114,6 +117,7 @@ function Transactions(){
             
 
             <TitleCard title="All Events" topMargin="mt-2" TopSideButtons={<TopSideButtons />}>
+            <SearchBar url={URSL.SEARHC_EVENT} results={(value)=>serDearchedUser(value)} />
             <div className="overflow-x-auto w-full">
                 <table className="table w-full">
                     <thead>
@@ -124,12 +128,13 @@ function Transactions(){
                         <th>Event Type</th>
                         <th>Activity</th>
                         <th>Delete Status</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                         {
-                            events.length>0 &&
-                            events.map((item, index) => {
+                            (searchedUser.length==0?events:searchedUser).length>0 &&
+                            (searchedUser.length==0?events:searchedUser).map((item, index) => {
                                 return(
                                     <tr key={index}>
                                     <td>
@@ -157,6 +162,11 @@ function Transactions(){
                                             <td style={{color:item.is_delete?"green":"red"}}>{item.is_delete?"DELETED":"DELETE"}</td>
                                         </button>
                                     </td>
+                                    <td>
+                                        <button className="btn btn-square btn-ghost" onClick={() => dispatch(openModal({title : "Edit Event", bodyType : MODAL_BODY_TYPES.EDIT_EVENT_MODAL,extraObject:item}))}>
+                                            <td style={{color:"green"}}>Edit</td>
+                                        </button>
+                                    </td>
                                     </tr>
                                 )
                             })
@@ -165,17 +175,20 @@ function Transactions(){
                 </table>
             </div>
             </TitleCard>
-            <ReactPaginate
-                  onPageChange={paginate}
-                  pageCount={PageSize}
-                  previousLabel={'Prev'}
-                  nextLabel={'Next'}
-                  containerClassName={'pagination'}
-                  pageLinkClassName={'page-number'}
-                  previousLinkClassName={'page-number'}
-                  nextLinkClassName={'page-number'}
-                  activeLinkClassName={'active'}
-            />
+            {
+                searchedUser.length==0 &&
+                <ReactPaginate
+                    onPageChange={paginate}
+                    pageCount={PageSize}
+                    previousLabel={'Prev'}
+                    nextLabel={'Next'}
+                    containerClassName={'pagination'}
+                    pageLinkClassName={'page-number'}
+                    previousLinkClassName={'page-number'}
+                    nextLinkClassName={'page-number'}
+                    activeLinkClassName={'active'}
+                />
+            }
             <ToastContainer />
         </>
     )
