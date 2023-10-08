@@ -40,13 +40,13 @@ function NewsEditModal({closeModal,extraObject}){
                 formdata.append('content',leadObj.content)
                 formdata.append('file',leadObj.file)
                 console.log(leadObj);
-                // const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL)
-                // const newsRespone=await API_REQUEST.postData(URSL.EDIT_NEWS,formdata,token,'multipart/form-data');
-                // if(newsRespone.data.status!==200)
-                //     throw newsRespone.data
-                // console.log(newsRespone,"ee")
-                // toast("News Update Successfully")
-                // closeModal()
+                const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL)
+            const newsRespone=await API_REQUEST.postData(URSL.EDIT_NEWS,formdata,token,'multipart/form-data');
+                if(newsRespone.data.status!==200)
+                    throw newsRespone.data
+                console.log(newsRespone,"ee")
+                toast("News Update Successfully")
+                closeModal()
             }
         } catch (error) {
             toast(error.message);

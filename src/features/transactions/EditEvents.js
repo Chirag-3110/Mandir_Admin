@@ -32,7 +32,7 @@ function EditEventModalBody({closeModal,extraObject}){
             formdata.append('type',leadObj.type)
             formdata.append('address',leadObj.address)
             formdata.append('file',leadObj.image)
-            console.log(leadObj.image);
+            console.log(leadObj);
             const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL)
             const addNewUser=await API_REQUEST.postData(URSL.EDIT_EVENT,formdata,token,'multipart/form-data')
             if(addNewUser.data.status !==200)

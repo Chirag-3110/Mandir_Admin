@@ -28,9 +28,9 @@ function AddNewsModal({closeModal}){
         try {
             console.log(value)
             const formdata=new FormData(form.current);
-            if(leadObj.name.trim() === "")  throw "Name is required!";
-            else if(value === "")  throw "Address is required!";
-            else if(leadObj.file === "{}")  throw "File is required!";
+            if(leadObj.name.trim() === "")  throw {message:"Name is required!"};
+            else if(value === "")  throw {message:"Address is required!"};
+            else if(leadObj.file === "{}")  throw {message:"File is required!"};
             else{
                 setLoading(true)
                 formdata.append('title',leadObj.name)
@@ -45,7 +45,7 @@ function AddNewsModal({closeModal}){
                 closeModal()
             }
         } catch (error) {
-            toast("Can't Add News");
+            toast(error.message);
             console.log(error);
         }finally{
             setLoading(false)
