@@ -29,5 +29,7 @@ export const URSL={
     SEARHC_NEWS:"news/search",
 
     ADD_ABOUT:"add-content",
-    GET_ABOUT:"get-content"
+    GET_ABOUT:"get-content",
+    
+    ADD_ADVERTISMENT:""
 }

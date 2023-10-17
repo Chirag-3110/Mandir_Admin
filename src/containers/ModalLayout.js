@@ -10,6 +10,7 @@ import AddExcelFile from '../features/leads/components/ExcelAddModal'
 import EditUserModalBody from '../features/leads/components/EditLead'
 import EditEvents from '../features/transactions/EditEvents'
 import EditNews from '../features/integration/EditNews'
+import AddAdsModalBody from '../features/AdModal'
 
 
 function ModalLayout(){
@@ -43,6 +44,7 @@ function ModalLayout(){
                              [MODAL_BODY_TYPES.EDIT_LEAD_MODAL] : <EditUserModalBody closeModal={close} extraObject={extraObject}/>,
                              [MODAL_BODY_TYPES.EDIT_EVENT_MODAL] : <EditEvents closeModal={close} extraObject={extraObject}/>,
                              [MODAL_BODY_TYPES.EDIT_NEWS_MODAL] : <EditNews closeModal={close} extraObject={extraObject}/>,
+                             [MODAL_BODY_TYPES.ADD_ADVERTISMENT] : <AddAdsModalBody closeModal={close} extraObject={extraObject}/>,
 
                              [MODAL_BODY_TYPES.NEWS_ADD_MODAL] : <AddNewsModal closeModal={close} extraObject={extraObject}/>,
                              [MODAL_BODY_TYPES.MODAL_EXCEL_ADD] : <AddExcelFile closeModal={close} extraObject={extraObject}/>,

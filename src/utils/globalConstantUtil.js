@@ -10,7 +10,9 @@ module.exports = Object.freeze({
         DEFAULT : "",
         EDIT_LEAD_MODAL:"EDIT_LEAD_MODAL",
         EDIT_EVENT_MODAL:"EDIT_EVENT_MODAL",
-        EDIT_NEWS_MODAL:"EDIT_NEWS_MODAL"
+        EDIT_NEWS_MODAL:"EDIT_NEWS_MODAL",
+
+        ADD_ADVERTISMENT:"ADD_ADVERTISMENT"
     },
 
     RIGHT_DRAWER_TYPES : {

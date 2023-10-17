@@ -29,13 +29,13 @@ function AddEventModalBody({closeModal}){
     const saveNewEvent = async () => {
         try {
             const formdata=new FormData();
-            if(leadObj.name.trim() === "")  throw "Name is required!";
-            else if(leadObj.start_date.trim() === "")  throw "Start date is required!";
-            else if(leadObj.end_date.trim() === "")  throw "End date is required!";
-            else if(leadObj.description.trim() === "")  throw "Description is required!";
-            else if(leadObj.type.trim() === "")  throw "Type is required!";
-            else if(leadObj.address.trim() === "")  throw "Address is required!";
-            else if(leadObj.file === '{}')  throw "File is required!";
+            if(leadObj.name.trim() === "")  throw {message:"Name is required!"};
+            else if(leadObj.start_date.trim() === "")  throw {message:"Start date is required!"};
+            else if(leadObj.end_date.trim() === "")  throw {message:"End date is required!"};
+            else if(leadObj.description.trim() === "")  throw {message:"Description is required!"};
+            else if(leadObj.type.trim() === "")  throw {message:"Type is required!"};
+            else if(leadObj.address.trim() === "")  throw {message:"Address is required!"};
+            else if(leadObj.file === '{}')  throw {message:"File is required!"};
             else{
                 setLoading(true)
                 formdata.append('name',leadObj.name)
@@ -49,13 +49,13 @@ function AddEventModalBody({closeModal}){
                 const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL)
                 const eventRespone=await API_REQUEST.postData(URSL.ADD_EVENTS,formdata,token,'multipart/form-data');
                 if(eventRespone.data.status!==200){
-                    throw eventRespone
+                    throw eventRespone.data
                 }   
                 closeModal()
                 toast(eventRespone.data.message)
             }
         } catch (error) {
-            toast(error.data.message)
+            toast(error.message)
             console.log(error);
         }finally{
             setLoading(false)
