@@ -26,5 +26,8 @@ export const URSL={
 
     SEARHC_USER:"user/search",
     SEARHC_EVENT:"events/search",
-    SEARHC_NEWS:"news/search"
+    SEARHC_NEWS:"news/search",
+
+    ADD_ABOUT:"add-content",
+    GET_ABOUT:"get-content"
 }

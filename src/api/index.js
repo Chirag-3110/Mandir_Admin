@@ -65,5 +65,5 @@ class ApiHelper{
     }
 }
 
-// export const API_REQUEST=new ApiHelper("http://192.168.9.149:9999")
+// export const API_REQUEST=new ApiHelper("http://localhost:9999")
 export const API_REQUEST=new ApiHelper("http://139.144.1.59:9999")

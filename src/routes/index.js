@@ -1,6 +1,7 @@
 // All components mapping with path for internal routes
 
 import { lazy } from 'react'
+import About from '../features/About'
 
 const Dashboard = lazy(() => import('../pages/protected/Dashboard'))
 const Welcome = lazy(() => import('../pages/protected/Welcome'))
@@ -45,40 +46,20 @@ const routes = [
     component: Transactions,
   },
   {
-    path: '/settings-profile',
-    component: ProfileSettings,
+    path: '/content',
+    component: Transactions,
   },
   {
-    path: '/settings-billing',
-    component: Bills,
+    path: '/ads',
+    component: Transactions,
   },
   {
-    path: '/getting-started',
-    component: GettingStarted,
-  },
-  {
-    path: '/features',
-    component: DocFeatures,
-  },
-  {
-    path: '/components',
-    component: DocComponents,
-  },
-  {
-    path: '/news',
-    component: Integration,
-  },
-  {
-    path: '/charts',
-    component: Charts,
+    path: '/about',
+    component: About,
   },
   {
     path: '/404',
     component: Page404,
-  },
-  {
-    path: '/blank',
-    component: Blank,
   },
 ]
 

@@ -53,6 +53,21 @@ const routes = [
     icon: <img className="mask w-6" src={News} alt="mandir logo"/>, // icon component
     name: 'News Manager', // name that appear in Sidebar
   },
+  {
+    path: '/content', // url
+    icon: <img className="mask w-6" src={News} alt="mandir logo"/>, // icon component
+    name: 'App Content', // name that appear in Sidebar
+  },
+  {
+    path: '/ads', // url
+    icon: <img className="mask w-6" src={News} alt="mandir logo"/>, // icon component
+    name: 'Advertisment', // name that appear in Sidebar
+  },
+  {
+    path: '/about', // url
+    icon: <img className="mask w-6" src={News} alt="mandir logo"/>, // icon component
+    name: 'About Us', // name that appear in Sidebar
+  },
   // {
   //   path: '/calendar', // url
   //   icon: <CalendarDaysIcon className={iconClasses}/>, // icon component
