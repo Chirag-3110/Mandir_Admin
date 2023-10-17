@@ -2,6 +2,8 @@
 
 import { lazy } from 'react'
 import About from '../features/About'
+import Content from '../features/Content'
+import Advertisment from '../features/Advertisment'
 
 const Dashboard = lazy(() => import('../pages/protected/Dashboard'))
 const Welcome = lazy(() => import('../pages/protected/Welcome'))
@@ -51,11 +53,11 @@ const routes = [
   },
   {
     path: '/content',
-    component: Transactions,
+    component: Content,
   },
   {
     path: '/ads',
-    component: Transactions,
+    component: Advertisment,
   },
   {
     path: '/about',
