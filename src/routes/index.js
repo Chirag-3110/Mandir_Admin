@@ -46,6 +46,10 @@ const routes = [
     component: Transactions,
   },
   {
+    path: '/news',
+    component: Integration,
+  },
+  {
     path: '/content',
     component: Transactions,
   },
