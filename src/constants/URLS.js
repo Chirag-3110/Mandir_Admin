@@ -31,5 +31,12 @@ export const URSL={
     ADD_ABOUT:"add-content",
     GET_ABOUT:"get-content",
     
-    ADD_ADVERTISMENT:""
+    ADD_ADVERTISMENT:"admin/add-ads",
+    ADD_CONTENT:"app/add-content",
+    GET_ADS:"admin/get-ads",
+    GET_CONTENT:"app/get-content",
+
+    DELETE_ADS:"delete-ad",
+    UPDATE_ADS_STATUS:"ad-status",
+    EDIT_ADS:"edit-ad"
 }

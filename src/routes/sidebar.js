@@ -1,27 +1,10 @@
-/** Icons are imported separatly to reduce build time */
-import BellIcon from '@heroicons/react/24/outline/BellIcon'
-import DocumentTextIcon from '@heroicons/react/24/outline/DocumentTextIcon'
-import Squares2X2Icon from '@heroicons/react/24/outline/Squares2X2Icon'
-import TableCellsIcon from '@heroicons/react/24/outline/TableCellsIcon'
-import WalletIcon from '@heroicons/react/24/outline/WalletIcon'
-import CodeBracketSquareIcon from '@heroicons/react/24/outline/CodeBracketSquareIcon'
-import DocumentIcon from '@heroicons/react/24/outline/DocumentIcon'
-import ExclamationTriangleIcon from '@heroicons/react/24/outline/ExclamationTriangleIcon'
-import CalendarDaysIcon from '@heroicons/react/24/outline/CalendarDaysIcon'
-import ArrowRightOnRectangleIcon from '@heroicons/react/24/outline/ArrowRightOnRectangleIcon'
-import UserIcon from '@heroicons/react/24/outline/UserIcon'
-import Cog6ToothIcon from '@heroicons/react/24/outline/Cog6ToothIcon'
-import BoltIcon from '@heroicons/react/24/outline/BoltIcon'
-import ChartBarIcon from '@heroicons/react/24/outline/ChartBarIcon'
-import CurrencyDollarIcon from '@heroicons/react/24/outline/CurrencyDollarIcon'
-import InboxArrowDownIcon from '@heroicons/react/24/outline/InboxArrowDownIcon'
-import UsersIcon from '@heroicons/react/24/outline/UsersIcon'
-import KeyIcon from '@heroicons/react/24/outline/KeyIcon'
-import DocumentDuplicateIcon from '@heroicons/react/24/outline/DocumentDuplicateIcon'
 import DashBoard from '../assets/dashboard.png';
 import User from '../assets/user.png';
 import Evennts from '../assets/events.png';
 import News from '../assets/news.png';
+import Abput from '../assets/about.png';
+import Content from '../assets/contnet.png';
+import Ads from '../assets/advertisement.png';
 
 const iconClasses = `h-6 w-6`
 const submenuIconClasses = `h-5 w-5`
@@ -55,17 +38,17 @@ const routes = [
   },
   {
     path: '/content', // url
-    icon: <img className="mask w-6" src={News} alt="mandir logo"/>, // icon component
+    icon: <img className="mask w-6" src={Content} alt="mandir logo"/>, // icon component
     name: 'App Content', // name that appear in Sidebar
   },
   {
     path: '/ads', // url
-    icon: <img className="mask w-6" src={News} alt="mandir logo"/>, // icon component
+    icon: <img className="mask w-6" src={Ads} alt="mandir logo"/>, // icon component
     name: 'Advertisment', // name that appear in Sidebar
   },
   {
     path: '/about', // url
-    icon: <img className="mask w-6" src={News} alt="mandir logo"/>, // icon component
+    icon: <img className="mask w-6" src={Abput} alt="mandir logo"/>, // icon component
     name: 'About Us', // name that appear in Sidebar
   },
   // {

@@ -13,32 +13,36 @@ const INITIAL_EVENT_OBJ = {
     screenName : "",
     file:{},
 }
-function AddAdsModalBody({closeModal}){
+function EditAdsModalBody({closeModal,extraObject}){
     const form=useRef();
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
-    const [leadObj, setLeadObj] = useState(INITIAL_EVENT_OBJ)
+    const [leadObj, setLeadObj] = useState({
+        id: extraObject.id, 
+        screen: extraObject.screen, 
+        file: extraObject.file
+    })
 
 
     const saveNewEvent = async () => {
         try {
             const formdata=new FormData();
-            if(leadObj.screenName.trim() === "")  throw {message:"Name is required!"};
-            else if(leadObj.file === '{}')  throw {message:"File is required!"};
+            if(leadObj.screen === "")  throw {message:"Name is required!"};
+            else if(leadObj.file === '{}' || leadObj.file==='')  throw {message:"File is required!"};
             else{
                 setLoading(true)
-                formdata.append('screen',leadObj.screenName)
-                formdata.append('file',leadObj.file)
-                
-                console.log(leadObj);
+                formdata.append("id",leadObj.id)
+                formdata.append('section',leadObj.screen)
+                {typeof(leadObj.file)!='string' && formdata.append('file',leadObj.file)}
                 const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL)
-                const eventRespone=await API_REQUEST.postData(URSL.ADD_ADVERTISMENT,formdata,token,'multipart/form-data');
+                const eventRespone=await API_REQUEST.postData(URSL.EDIT_ADS,formdata,token,'multipart/form-data');
                 if(eventRespone.data.status!==200){
                     throw eventRespone.data
                 }   
+                console.log(eventRespone)
                 closeModal()
-                toast(eventRespone.data.message)
+                toast("Advertisment Updated")
             }
         } catch (error) {
             toast(error.message)
@@ -63,10 +67,10 @@ function AddAdsModalBody({closeModal}){
         <>
 
             <form encType="multipart/form-data" ref={form}>
-                <InputText type="text" defaultValue={leadObj.name} updateType="screenName" containerStyle="mt-4" labelTitle="screenName" updateFormValue={updateFormValue}/>
+                <InputText type="text" defaultValue={leadObj.screen} updateType="screen" containerStyle="mt-4" labelTitle="screen" updateFormValue={updateFormValue}/>
                 <div className="parent">
                     <div className="file-upload">
-                        <h3> {leadObj.file?.name || "Click box to upload file"}</h3>
+                        <h3> {typeof(leadObj.file)==='string'?leadObj.file:leadObj.file?.name || "Click box to upload file"}</h3>
                         <input type="file" onChange={handleFileChange} />
                     </div>
                 </div>
@@ -77,9 +81,8 @@ function AddAdsModalBody({closeModal}){
                 <button  className="btn btn-ghost" onClick={() => closeModal()}>Cancel</button>
                 <button  className={"btn btn-primary px-6" + (loading ? " loading" : "")} onClick={() => saveNewEvent()}>Save</button>
             </div>
-            <ToastContainer />
         </>
     )
 }
 
-export default AddAdsModalBody
+export default EditAdsModalBody

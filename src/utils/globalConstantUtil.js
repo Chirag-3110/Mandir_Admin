@@ -11,6 +11,7 @@ module.exports = Object.freeze({
         EDIT_LEAD_MODAL:"EDIT_LEAD_MODAL",
         EDIT_EVENT_MODAL:"EDIT_EVENT_MODAL",
         EDIT_NEWS_MODAL:"EDIT_NEWS_MODAL",
+        EDIT_ADS_MODAL:"EDIT_ADS_MODAL",
 
         ADD_ADVERTISMENT:"ADD_ADVERTISMENT"
     },
