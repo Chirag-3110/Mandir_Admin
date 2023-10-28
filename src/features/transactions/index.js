@@ -112,6 +112,7 @@ function Transactions(){
             console.log(error);
         }
     }
+    console.log(events);
     return(
         <>
             
@@ -151,7 +152,7 @@ function Transactions(){
                                     </td>
                                     <td>{item.start_date}</td>
                                     <td>{item.end_date}</td>
-                                    <td>{item.type?"LIVE":"ON-SITE"}</td>
+                                    <td>{item.type==0?"LIVE":"ON-SITE"}</td>
                                     <td>
                                         <button className="btn btn-square btn-ghost" onClick={() => udpateEventAcivity(item,index)}>
                                             <td style={{color:item.is_active?"green":"red"}}>{item.is_active?"ACTIVE":"InActive"}</td>

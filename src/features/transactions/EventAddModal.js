@@ -34,7 +34,7 @@ function AddEventModalBody({closeModal}){
             else if(leadObj.end_date.trim() === "")  throw {message:"End date is required!"};
             else if(leadObj.description.trim() === "")  throw {message:"Description is required!"};
             else if(leadObj.type.trim() === "")  throw {message:"Type is required!"};
-            else if(leadObj.address.trim() === "")  throw {message:"Address is required!"};
+            else if(leadObj.address.trim() === "" && leadObj.type == 1)  throw {message:"Address is required!"};
             else if(leadObj.file === '{}')  throw {message:"File is required!"};
             else{
                 setLoading(true)
@@ -42,10 +42,11 @@ function AddEventModalBody({closeModal}){
                 formdata.append('start_date',leadObj.start_date)
                 formdata.append('end_date',leadObj.end_date)
                 formdata.append('description',leadObj.description)
-                formdata.append('type',0)
+                formdata.append('type',leadObj.type)
                 formdata.append('address',leadObj.address)
                 formdata.append('file',leadObj.file)
                 
+                // console.log(leadObj);
                 const token=localStorage.getItem(USER_CONFIG.TOKEN_DETAIL)
                 const eventRespone=await API_REQUEST.postData(URSL.ADD_EVENTS,formdata,token,'multipart/form-data');
                 if(eventRespone.data.status!==200){
