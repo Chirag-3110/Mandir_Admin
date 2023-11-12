@@ -99,6 +99,8 @@ const Advertisment = () => {
                             <th>S.no.</th>
                             <th>Screen Name</th>
                             <th>Ad</th>
+                            <th>Name</th>
+                            <th>Phone</th>
                             <th>Activity</th>
                             <th>Delete Status</th>
                             <th>Actions</th>
@@ -119,6 +121,8 @@ const Advertisment = () => {
                                             </div>
                                             {/* <div >{l.file}</div> */}
                                         </div>
+                                        <td>{l.title}</td>
+                                        <td>{l.mobile}</td>
                                         <td>
                                             <button className="btn btn-square btn-ghost" onClick={() => updateuserActiveStatus(l,k)}>
                                                 <td style={{color:l.is_active?"green":"red"}}>{l.is_active?"ACTIVE":"InActive"}</td>

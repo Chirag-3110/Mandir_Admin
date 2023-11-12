@@ -11,6 +11,8 @@ import ErrorText from '../components/Typography/ErrorText'
 
 const INITIAL_EVENT_OBJ = {
     screenName : "",
+    name : "",
+    phone : "",
     file:{},
 }
 function AddAdsModalBody({closeModal}){
@@ -24,11 +26,15 @@ function AddAdsModalBody({closeModal}){
     const saveNewEvent = async () => {
         try {
             const formdata=new FormData();
-            if(leadObj.screenName.trim() === "")  throw {message:"Name is required!"};
+            if(leadObj.screenName.trim() === "")  throw {message:"Screen name is required!"};
+            if(leadObj.name.trim() === "")  throw {message:"Name is required!"};
+            if(leadObj.phone.trim() === "")  throw {message:"Phone is required!"};
             else if(leadObj.file === '{}')  throw {message:"File is required!"};
             else{
                 setLoading(true)
                 formdata.append('screen',leadObj.screenName)
+                formdata.append('title',leadObj.name)
+                formdata.append('mobile',leadObj.phone)
                 formdata.append('file',leadObj.file)
                 
                 console.log(leadObj);
@@ -63,7 +69,9 @@ function AddAdsModalBody({closeModal}){
         <>
 
             <form encType="multipart/form-data" ref={form}>
-                <InputText type="text" defaultValue={leadObj.name} updateType="screenName" containerStyle="mt-4" labelTitle="screenName" updateFormValue={updateFormValue}/>
+                <InputText type="text" defaultValue={leadObj.screenName} updateType="screenName" containerStyle="mt-4" labelTitle="Screen name" updateFormValue={updateFormValue}/>
+                <InputText type="text" defaultValue={leadObj.name} updateType="name" containerStyle="mt-4" labelTitle="Name" updateFormValue={updateFormValue}/>
+                <InputText maxLength={10} type="text" defaultValue={leadObj.phone} updateType="phone" containerStyle="mt-4" labelTitle="Phone number" updateFormValue={updateFormValue}/>
                 <div className="parent">
                     <div className="file-upload">
                         <h3> {leadObj.file?.name || "Click box to upload file"}</h3>
